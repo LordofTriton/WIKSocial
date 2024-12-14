@@ -15,12 +15,6 @@ export class User {
   coverImageId: number;
 
   @Expose()
-  profileImage: CloudFile;
-
-  @Expose()
-  coverImage: CloudFile;
-
-  @Expose()
   email: string;
 
   password: string;
@@ -30,6 +24,9 @@ export class User {
 
   @Expose()
   userStatus: string;
+
+  @Expose()
+  rating: number;
 
   @Expose()
   isSetupComplete: boolean;
@@ -48,4 +45,7 @@ export class User {
   
   @Expose()
   dateCreated: number;
+
+  profileImage: CloudFile;
+  coverImage: CloudFile;
 }

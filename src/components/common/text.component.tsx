@@ -1,12 +1,12 @@
+"use client"
+
 import { DetailedHTMLProps, HTMLAttributes, ReactNode } from "react";
-import { ShadeColor } from "../../configs/colors.config";
-import { Font } from "../fonts.component";
 
 interface IProps extends DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement> {
     children?: ReactNode;
 
     size?: number;
-    weight?: number;
+    weight?: "thin"	| "extralight" | "light" | "normal"	| "medium" | "semibold" | "bold" | "extrabold" | "black";
     block?: boolean;
     inline?: boolean;
     center?: boolean;
@@ -26,20 +26,10 @@ export const Text: React.FC<IProps> = ({
     ...rest
 }) => {
 
-    rest.style = {
-        display: block ? "block" : inline ? "inline" ? block && inline ? "inline-block" : "flex" : "flex" : "flex",
-        textAlign: center ? "center" : undefined,
-        color: color ?? ShadeColor.black,
-        fontSize: size ? `${size}px` : "15px",
-        fontFamily: Font.Poppins,
-        fontWeight: weight ? `${weight}` : "300",
-        padding: "0px",
-        margin: "0px",
-        ...rest.style
-    }
+    const baseClasses = `${block ? "block" : inline ? "inline" ? block && inline ? "inline-block" : "flex" : "flex" : "flex"} ${center ? "center" : ""} text-${color ?? "black"} text-${size ?? 15} font-sans font-${weight ?? "light"} p-0 m-0`;
 
     return (
-        <span {...rest}>
+        <span className={`${baseClasses} ${rest.className}`} {...rest}>
             {children ?? ""}
         </span>
     );

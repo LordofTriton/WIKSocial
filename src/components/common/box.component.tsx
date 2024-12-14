@@ -1,3 +1,5 @@
+"use client"
+
 import { DetailedHTMLProps, HTMLAttributes, ReactNode } from "react";
 
 interface IProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
@@ -9,18 +11,10 @@ export const Box: React.FC<IProps> = ({
     ...rest
 }) => {
 
-    rest.className = {
-        display: "flex",
-        padding: "0px",
-        margin: "0px",
-        boxSizing: "border-box",
-        transition: "all 0.5s",
-        flexDirection: "column",
-        ...rest.style
-    }
+    const baseClasses = "flex p-0 m-0 border-box transition-all duration-500 flex-col";
 
     return (
-        <div className="flex " {...rest}>
+        <div className={`${baseClasses} ${rest.className}`} {...rest}>
             {children ?? null}
         </div>
     );

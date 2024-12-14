@@ -1,3 +1,5 @@
+"use client"
+
 import { CSSProperties, DetailedHTMLProps, HTMLAttributes, ReactNode } from "react";
 import { NeutralColor, PrimaryColor, ShadeColor } from "../../configs/colors.config";
 import { Text } from "./text.component";

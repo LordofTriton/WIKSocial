@@ -1,3 +1,5 @@
+"use client"
+
 import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
 import { Toast } from '../constants/models/toast.model';
 import { ToastTypeEnum } from '../constants/enums/misc.enums';

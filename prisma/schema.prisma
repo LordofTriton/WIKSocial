@@ -13,9 +13,8 @@ model User {
   email             String      @unique @db.VarChar(256)   
   password          String       
   profileImageId    Int?        @unique
-  profileImage      CloudFile?  @relation("UserProfileImage") 
   coverImageId      Int?        @unique
-  coverImage        CloudFile?  @relation("UserCoverImage")
+  rating            Int         @default(0)
   userType          String      @db.VarChar(256) @default("BASIC")
   userStatus        String      @db.VarChar(256) @default("INACTIVE")
   isSetupComplete   Boolean     @default(false)
@@ -25,6 +24,12 @@ model User {
   lastLogin         String      @default(dbgenerated("to_char(current_timestamp, 'YYYY-MM-DD HH24:MI:SS.MS')"))
   lastActive        String      @default(dbgenerated("to_char(current_timestamp, 'YYYY-MM-DD HH24:MI:SS.MS')"))
   dateCreated       String      @default(dbgenerated("to_char(current_timestamp, 'YYYY-MM-DD HH24:MI:SS.MS')"))
+
+  posts             Post[]
+  notions           Notion[]
+  
+  profileImage      CloudFile?  @relation(fields: [profileImageId], references: [cloudFileId], name: "ProfileImage") 
+  coverImage        CloudFile?  @relation(fields: [coverImageId], references: [cloudFileId], name: "CoverImage")
 }
 
 model Notification {
@@ -64,13 +69,59 @@ model Settings {
 }
 
 model CloudFile {
-  cloudFileId    Int         @id @default(autoincrement())
-  userId         Int         
-  publicId       String      @db.VarChar(256)
-  uri            String?     @db.VarChar(256)
-  fileType       String      @db.VarChar(256)
-  dateCreated    String      @default(dbgenerated("to_char(current_timestamp, 'YYYY-MM-DD HH24:MI:SS.MS')"))
+  cloudFileId          Int              @id @default(autoincrement())
+  userId               Int         
+  publicId             String           @db.VarChar(256)
+  uri                  String?          @db.VarChar(256)
+  fileType             String           @db.VarChar(256)
+  dateCreated          String           @default(dbgenerated("to_char(current_timestamp, 'YYYY-MM-DD HH24:MI:SS.MS')"))
 
-  profileUser    User        @relation("UserProfileImage", fields: [cloudFileId], references: [profileImageId], map: "user_profile_image_id")
-  coverUser      User        @relation("UserCoverImage", fields: [cloudFileId], references: [coverImageId], map: "user_cover_image_id")
+  userProfiles         User[]           @relation(name: "ProfileImage")
+  userCovers           User[]           @relation(name: "CoverImage")
+  communityProfiles    Community[]      @relation(name: "ProfileImage")
+  communityCovers      Community[]      @relation(name: "CoverImage")
+}
+
+model Notion {
+  notionId        Int         @id @default(autoincrement())
+  userId          Int      
+  referenceId     Int      
+  isSubscribed    Boolean     @default(false) 
+  isHidden        Boolean     @default(false) 
+  isBlocked       Boolean     @default(false) 
+  dateCreated     String      @default(dbgenerated("to_char(current_timestamp, 'YYYY-MM-DD HH24:MI:SS.MS')"))
+
+  user            User        @relation(fields: [userId], references: [userId])
+}
+
+model Post {
+  postId             Int             @id @default(autoincrement())
+  userId             Int         
+  communityId        Int?        
+  sharedPostId       Int?        
+  textContent        String
+  linkContent        String
+  mediaContentIds    String[]
+  dateCreated        String          @default(dbgenerated("to_char(current_timestamp, 'YYYY-MM-DD HH24:MI:SS.MS')"))
+
+  author             User?           @relation(fields: [userId], references: [userId])
+  community          Community?      @relation(fields: [communityId], references: [communityId])
+  sharedPost         Post?           @relation(fields: [sharedPostId], references: [postId], name: "SharedPost")
+  postShared         Post[]          @relation(name: "SharedPost")
+}
+
+model Community {
+  communityId       Int           @id @default(autoincrement())
+  name              String
+  displayName       String
+  profileImageId    Int?          @unique
+  coverImageId      Int?          @unique
+  description       String
+  status            String        @db.VarChar(256) @default("ACTIVE")
+  dateCreated       String        @default(dbgenerated("to_char(current_timestamp, 'YYYY-MM-DD HH24:MI:SS.MS')"))
+
+  posts             Post[]
+  
+  profileImage      CloudFile?    @relation(fields: [profileImageId], references: [cloudFileId], name: "ProfileImage") 
+  coverImage        CloudFile?    @relation(fields: [coverImageId], references: [cloudFileId], name: "CoverImage")
 }

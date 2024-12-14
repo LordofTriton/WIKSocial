@@ -1,3 +1,5 @@
+"use client"
+
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { User } from '../constants/entities/user.entity';
 import DatetimeHelper from '../helpers/datetime.helper';

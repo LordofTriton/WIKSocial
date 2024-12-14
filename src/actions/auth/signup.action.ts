@@ -16,7 +16,7 @@ async function Signup(data: SignupRequest): Promise<WikResponse<AuthUserResponse
     const newUser = WikMapper.map(data, User);
     newUser.verificationCode = Generator.GenerateDigits(5).toString();
 
-    await Prisma.user.create({ data: newUser });
+    await Prisma.user.create({ data: newUser as any });
     await Prisma.settings.create({ data: { userId: newUser.userId } });
 
     const user = await Prisma.user.findUnique({ where: { email: data.email } });

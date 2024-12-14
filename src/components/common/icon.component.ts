@@ -1,3 +1,5 @@
+"use client"
+
 import * as aiIcons from "react-icons/ai";
 import * as biIcons from "react-icons/bi";
 import * as bsIcons from "react-icons/bs";

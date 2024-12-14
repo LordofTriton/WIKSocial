@@ -1,10 +1,11 @@
+"use client"
+
 import { useEffect, useRef } from "react";
-import { Icon } from "../icons.component";
+import { Icon } from "./icon.component";
 import { ToastTypeEnum } from "../../constants/enums/misc.enums";
 import { Toast } from "../../constants/models/toast.model";
 import { Text } from "./text.component";
 import { Box } from "./box.component";
-import { Asset } from "../../configs/assets.config";
 
 interface IProps {
     data: Toast;
@@ -27,7 +28,7 @@ export const ToastMessage: React.FC<IProps> = ({
             alignItems: "center",
             pointerEvents: "auto"
         }}>
-            <img
+            {/* <img
                 src={
                     data.type === ToastTypeEnum.SUCCESS ? Asset.SuccessImage :
                     data.type === ToastTypeEnum.ERROR ? Asset.ErrorImage : Asset.LogoImage2
@@ -36,7 +37,7 @@ export const ToastMessage: React.FC<IProps> = ({
                     width: 35,
                     height: 35
                 }}
-            />
+            /> */}
 
             <Box style={{
                 flex: 1,
