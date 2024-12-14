@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRESQL_DB_URL")
+}
+
+model User {
+  userId            Int         @id @default(autoincrement())
+  username          String      @db.VarChar(256)
+  email             String      @unique @db.VarChar(256)   
+  password          String       
+  profileImageId    Int?        @unique
+  profileImage      CloudFile?  @relation("UserProfileImage") 
+  coverImageId      Int?        @unique
+  coverImage        CloudFile?  @relation("UserCoverImage")
+  userType          String      @db.VarChar(256) @default("BASIC")
+  userStatus        String      @db.VarChar(256) @default("INACTIVE")
+  isSetupComplete   Boolean     @default(false)
+  verificationCode  String?     
+  accessCode        String?     
+  resetCode         String?     
+  lastLogin         String      @default(dbgenerated("to_char(current_timestamp, 'YYYY-MM-DD HH24:MI:SS.MS')"))
+  lastActive        String      @default(dbgenerated("to_char(current_timestamp, 'YYYY-MM-DD HH24:MI:SS.MS')"))
+  dateCreated       String      @default(dbgenerated("to_char(current_timestamp, 'YYYY-MM-DD HH24:MI:SS.MS')"))
+}
+
+model Notification {
+  notificationId      Int         @id @default(autoincrement())
+  userId              Int         
+  content             String      @db.VarChar(256)
+  notificationType    String      
+  referenceId         String?     
+  isRead              Boolean     @default(false)
+  dateCreated         String      @default(dbgenerated("to_char(current_timestamp, 'YYYY-MM-DD HH24:MI:SS.MS')"))
+}
+
+model Exception {
+  exceptionId    Int         @id @default(autoincrement())
+  code           Int         
+  action         String      
+  message        String      @db.VarChar(256)
+  metadata       String?     @db.VarChar(256)
+  dateCreated    String      @default(dbgenerated("to_char(current_timestamp, 'YYYY-MM-DD HH24:MI:SS.MS')"))
+}
+
+model Settings {
+  settingsId                Int         @id @default(autoincrement())
+  userId                    Int         
+  emailCommentReplies       Boolean     @default(true)
+  emailCommentMentions      Boolean     @default(true)
+  emailNewPostComment       Boolean     @default(true)
+  emailNewPosts             Boolean     @default(true)
+  emailBestOfTheWeek        Boolean     @default(false)
+  emailPostCommentRatings   Boolean     @default(true)
+  commentReplies            Boolean     @default(true)
+  commentMentions           Boolean     @default(true)
+  newPostComment            Boolean     @default(true)
+  newFollowers              Boolean     @default(true)
+  postCommentRatings        Boolean     @default(true)
+  dateCreated               String      @default(dbgenerated("to_char(current_timestamp, 'YYYY-MM-DD HH24:MI:SS.MS')"))
+}
+
+model CloudFile {
+  cloudFileId    Int         @id @default(autoincrement())
+  userId         Int         
+  publicId       String      @db.VarChar(256)
+  uri            String?     @db.VarChar(256)
+  fileType       String      @db.VarChar(256)
+  dateCreated    String      @default(dbgenerated("to_char(current_timestamp, 'YYYY-MM-DD HH24:MI:SS.MS')"))
+
+  profileUser    User        @relation("UserProfileImage", fields: [cloudFileId], references: [profileImageId], map: "user_profile_image_id")
+  coverUser      User        @relation("UserCoverImage", fields: [cloudFileId], references: [coverImageId], map: "user_cover_image_id")
+}
