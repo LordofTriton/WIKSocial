@@ -39,4 +39,7 @@ export class Settings {
 
     @Expose()
     postCommentRatings: boolean;
+
+    @Expose()
+    darkMode: boolean;
 }

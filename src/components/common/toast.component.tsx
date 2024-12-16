@@ -1,11 +1,11 @@
 "use client"
 
 import { useEffect, useRef } from "react";
-import { Icon } from "./icon.component";
 import { ToastTypeEnum } from "../../constants/enums/misc.enums";
 import { Toast } from "../../constants/models/toast.model";
 import { Text } from "./text.component";
 import { Box } from "./box.component";
+import { XMarkIcon } from "@heroicons/react/24/solid";
 
 interface IProps {
     data: Toast;
@@ -61,7 +61,7 @@ export const ToastMessage: React.FC<IProps> = ({
                 justifyContent: "center",
                 cursor: "pointer"
             }} onClick={() => onRemove()}>
-                <Icon.IoClose size={20} color="black" />
+                <XMarkIcon className="w-20 h-20 text-black" />
             </Box>
 
         </Box>

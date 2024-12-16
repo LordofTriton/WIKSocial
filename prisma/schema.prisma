@@ -64,7 +64,8 @@ model Settings {
   commentMentions           Boolean     @default(true)
   newPostComment            Boolean     @default(true)
   newFollowers              Boolean     @default(true)
-  postCommentRatings        Boolean     @default(true)
+  postCommentRatings        Boolean     @default(true)  
+  darkMode                  Boolean     @default(false)  
   dateCreated               String      @default(dbgenerated("to_char(current_timestamp, 'YYYY-MM-DD HH24:MI:SS.MS')"))
 }
 

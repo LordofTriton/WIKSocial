@@ -1,24 +1,20 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Roboto } from "next/font/google";
+import { Roboto, Russo_One } from "next/font/google";
 import "./globals.css";
 import { AppProvider } from "../providers/app.provider";
 import { ToastProvider } from "../providers/toast.provider";
 import { MainLayout } from "../components/layout/main.layout";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 const roboto = Roboto({
   weight: ["100", "300", "400", "500", "700", "900"],
   style: ["normal", "italic"],
   subsets: ["latin"],
+});
+
+const russoOne = Russo_One({
+  weight: ["400"],
+  style: ["normal"],
+  subsets: ["latin"]
 });
 
 export const metadata: Metadata = {
@@ -32,9 +28,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} ${roboto.className} antialiased`}>
+      <body className={`${roboto.className} antialiased`}>
         <AppProvider>
           <ToastProvider>
             <MainLayout>

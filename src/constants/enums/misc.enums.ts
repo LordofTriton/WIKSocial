@@ -3,3 +3,9 @@ export enum ToastTypeEnum {
     SUCCESS = 'SUCCESS',
     ERROR = 'ERROR'
 }
+
+export enum ThemeEnum {
+    LIGHT = "LIGHT",
+    DARK = "DARK",
+    SYSTEM = "SYSTEM"
+}
