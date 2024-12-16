@@ -1,15 +1,13 @@
 "use client"
 
 import React from "react";
-import { IoClose } from "react-icons/io5";
-import { Text } from "./text.component";
-import { Box } from "./box.component";
-import { Icon } from "../icons.component";
-import { NeutralColor, ShadeColor } from "../../configs/colors.config";
+import { ChevronLeftIcon } from "@heroicons/react/24/solid";
+import { XMarkIcon } from "@heroicons/react/16/solid";
 
 interface IProps {
     open: boolean;
-    onClose: () => void;
+    onClose?: () => void;
+    onGoBack?: () => void;
     title?: string;
     width?: number;
     showClose?: boolean;
@@ -20,65 +18,28 @@ interface IProps {
 const Modal: React.FC<IProps> = ({ 
     open,
     onClose,
+    onGoBack,
     title,
     width,
-    showClose,
     closeOnClickOut,
     children
 }) => {
-    return(
-        <Box style={{
-            width: "100%",
-            height: "100%",
-            position: "fixed",
-            top: "0px",
-            left: "0px",
-            background: ShadeColor.glass,
-            backdropFilter: "blur(10px)",
-            display: open ? "flex" : "none",
-            justifyContent: "space-around",
-            alignItems: "center",
-            overflow: "hidden",
-            overflowY: "auto",
-            padding: "50px 0px"
-        }} onClick={() => closeOnClickOut ? onClose() : null}>
+    return open && (
+        <div className="flex fixed inset-0 bg-tinted-glass z-20 backdrop-filter backdrop-blur-sm justify-center items-center" onClick={() => closeOnClickOut ? onClose() : null}>
 
-            <Box style={{
-                width: width ? `${width}px` : "500px",
-                maxWidth: "90%",
-                height: "fit-content",
-                borderRadius: "10px",
-                backgroundColor: ShadeColor.white,
-                border: "1px solid #e5e5e5",
-                boxShadow: "0 .125rem .25rem #e5e5e5",
-                flexDirection: "column"
-            }} onClick={(e) => e.stopPropagation()}>
-                <Box style={{
-                    width: "100%",
-                    padding: "20px",
-                    justifyContent: "space-between",
-                    flexDirection: "row"
-                }}>
-                    <Text size={17} weight={600} color={NeutralColor.CM}>
-                        {title ?? ""}
-                    </Text>
+            <div className="w-2/6 min-h-32 bg-white dark:bg-eerie-black rounded-xl p-5">
+                <div className={`flex flex-row ${onGoBack || title ? "justify-between" : "justify-end"} items-center`}>
+                    { onGoBack ? <ChevronLeftIcon className="w-5 h-5 text-black dark:text-gray-300 mr-2 cursor-pointer" onClick={() => onGoBack()} /> : null}
+                    { title ? <span className="flex flex-1 text-lg font-semibold text-black dark:text-gray-300">{title}</span> : null }
+                    { onClose ? <XMarkIcon className="w-6 h-6 text-black dark:text-gray-300 cursor-pointer" onClick={() => onClose()} /> : null}
+                </div>
 
-                    {
-                        showClose && (
-                            <Icon.IoClose style={{
-                                width: "25px",
-                                height: "25px",
-                                cursor: "pointer",
-                                color: NeutralColor.CM
-                            }} onClick={() => onClose()} />
-                        )
-                    }
-                </Box>
-                
-                {children}
-            </Box>
+                <div className="mt-2">
+                    {children}
+                </div>
+            </div>
 
-        </Box>
+        </div>
     )
 }
 

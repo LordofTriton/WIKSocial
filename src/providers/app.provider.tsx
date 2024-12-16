@@ -7,6 +7,9 @@ import { STORE_KEYS } from '../config/store.config';
 import Cache from '../util/cache.util';
 import { Settings } from '../constants/entities/settings.entity';
 import { NextRouter } from 'next/router';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import { useRouter, usePathname, useParams, useSearchParams, ReadonlyURLSearchParams } from 'next/navigation';
+import { Params } from 'next/dist/server/request/params';
 
 interface IAppContext {
   activeUser: Partial<User> | null;
@@ -25,6 +28,11 @@ interface IAppContext {
   isFetchingData: boolean;
 
   logOutUser: (callback: () => void) => void;
+
+  router: AppRouterInstance;
+  pathname: string;
+  params: Params;
+  searchParams: ReadonlyURLSearchParams;
 }
 
 const AppContext = createContext<IAppContext>({} as IAppContext);
@@ -38,6 +46,11 @@ export const useApp = () => {
 };
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const params = useParams();
+  const searchParams = useSearchParams();
+
   const [activeUser, setActiveUser] = useState<Partial<User> | null>({} as User);
   const [activeSettings, setActiveSettings] = useState<Partial<Settings> | null>({} as Settings);
   
@@ -130,7 +143,12 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         darkMode,
         toggleDarkMode,
 
-        logOutUser
+        logOutUser,
+
+        router,
+        pathname,
+        params,
+        searchParams
       }}
     >
       {children}

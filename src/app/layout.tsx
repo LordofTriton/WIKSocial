@@ -4,6 +4,7 @@ import "./globals.css";
 import { AppProvider } from "../providers/app.provider";
 import { ToastProvider } from "../providers/toast.provider";
 import { MainLayout } from "../components/layout/main.layout";
+import { ModalProvider } from "../providers/modal.provider";
 
 const roboto = Roboto({
   weight: ["100", "300", "400", "500", "700", "900"],
@@ -31,12 +32,14 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${roboto.className} antialiased`}>
+      <body className={`${roboto.className} antialiased relative`}>
         <AppProvider>
           <ToastProvider>
-            <MainLayout>
-              {children}
-            </MainLayout>
+            <ModalProvider>
+              <MainLayout>
+                {children}
+              </MainLayout>
+            </ModalProvider>
           </ToastProvider>
         </AppProvider>
       </body>
