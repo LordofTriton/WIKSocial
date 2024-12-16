@@ -3,7 +3,7 @@ import { PaginatedRequest } from '../models/pagination.models';
 
 export class CreateNotificationRequest {
     @Expose()
-    userId: string;
+    userId: number;
 
     @Expose()
     content: string;
@@ -17,7 +17,7 @@ export class CreateNotificationRequest {
 
 export class GetNotificationsRequest extends PaginatedRequest {
     @Expose()
-    userId: string;
+    userId: number;
 
     @Expose()
     isRead?: boolean;

@@ -7,9 +7,11 @@ import { BsCircleHalf } from "react-icons/bs";
 import { SlDiamond } from "react-icons/sl";
 import useDrop from "../../hooks/misc/useDrop";
 import { useApp } from "../../providers/app.provider";
+import { useModal } from "../../providers/modal.provider";
 
 export const TopNav = () => {
     const { toggleDarkMode, isAuthenticated, router } = useApp();
+    const { toggleModal } = useModal();
 
     const { state: showAccDrop, setState: setShowAccDrop, ref: accountDropRef } = useDrop();
     const { state: showThemeDrop, setState: setShowThemeDrop, ref: themeDropRef } = useDrop();
@@ -40,7 +42,7 @@ export const TopNav = () => {
                             </div>
                             <ChevronDownIcon className="w-7 h-4 text-black dark:text-white cursor-pointer" />
                         </div> :
-                        <div className="flex flex-row justify-center items-center bg-tang-blue rounded-full px-5 py-2 cursor-pointer" onClick={() => router.push("?modal=login", { scroll : false })}>
+                        <div className="flex flex-row justify-center items-center bg-tang-blue rounded-full px-5 py-2 cursor-pointer" onClick={() => toggleModal("login")}>
                             <span className="text-base text-white font-medium">Log In</span>
                         </div>
                     }

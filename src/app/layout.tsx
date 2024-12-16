@@ -34,13 +34,13 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${roboto.className} antialiased relative`}>
         <AppProvider>
-          <ToastProvider>
-            <ModalProvider>
-              <MainLayout>
-                {children}
-              </MainLayout>
-            </ModalProvider>
-          </ToastProvider>
+            <ToastProvider>
+              <ModalProvider>
+                <MainLayout>
+                  {children}
+                </MainLayout>
+              </ModalProvider>
+            </ToastProvider>
         </AppProvider>
       </body>
     </html>

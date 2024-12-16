@@ -2,7 +2,7 @@ import { Expose } from 'class-transformer';
 
 export class AuthUserResponse {
     @Expose()
-    userId: string;
+    userId: number;
 
     @Expose()
     email: string;

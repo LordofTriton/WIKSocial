@@ -17,7 +17,7 @@ export class Notification {
     notificationType: string;
 
     @Expose()
-    referenceId: string;
+    referenceId: number;
 
     @Expose()
     isRead: boolean;

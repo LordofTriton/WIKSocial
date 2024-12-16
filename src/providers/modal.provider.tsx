@@ -3,11 +3,15 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { useApp } from './app.provider';
 import { LoginModal } from '../components/modals/auth/login.modal';
+import { SignupModal } from '../components/modals/auth/signup.modal';
+import { MailLoginModal } from '../components/modals/auth/mailLogin.modal';
+import { MailSignupModal } from '../components/modals/auth/mailSignup.modal';
 
 interface IModalContext {
     currentModal: string;
     setCurrentModal: (value: string) => void;
 
+    toggleModal: (modalName: string) => void;
     closeModal: () => void;
 }
 
@@ -22,7 +26,7 @@ export const useModal = () => {
 };
 
 export const ModalProvider = ({ children }: { children: ReactNode }) => {
-    const { router, pathname, searchParams } = useApp();
+    const { pathname, searchParams } = useApp();
     const [currentModal, setCurrentModal] = useState<string | null>(null);
 
     useEffect(() => {
@@ -30,13 +34,28 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
         if (modal) setCurrentModal(modal);
     }, [searchParams]);
 
+    const toggleModal = (modalName: string) => {
+        const newParam = `?modal=${modalName}`;
+        window.history.replaceState({ ...window.history.state, as: newParam, url: newParam }, '', newParam);
+        setCurrentModal(modalName);
+    }
+
+    const closeModal = () => {
+        window.history.replaceState({ ...window.history.state, as: pathname, url: pathname }, '', pathname);
+        setCurrentModal(null);
+    }
+
     return (
         <ModalContext.Provider
-            value={{ currentModal, setCurrentModal, closeModal: () => { router.push(pathname, { scroll : false }); setCurrentModal(null); } }}
+            value={{ currentModal, setCurrentModal, toggleModal, closeModal }}
         >
             {children}
 
             <LoginModal />
+            <SignupModal />
+
+            <MailLoginModal />
+            <MailSignupModal />
             
         </ModalContext.Provider>
     );

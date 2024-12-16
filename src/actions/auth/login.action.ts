@@ -12,7 +12,7 @@ import { WikMapper } from "../../util/mapper.util";
 import { WikServerAction } from "../base.action";
 
 
-async function Login(data: LoginRequest): Promise<WikResponse<AuthUserResponse>> {
+export async function Login(data: LoginRequest): Promise<WikResponse<AuthUserResponse>> {
     const user = await Prisma.user.findFirst({ where: { email: data.email } });
     if (!user) return WikResponse.Failure({ error: "No user with this email exists." });
 

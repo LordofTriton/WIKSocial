@@ -18,19 +18,13 @@ export class CreateUserRequest {
 
 export class FindUserRequest {
     @Expose()
-    userId?: string;
+    userId?: number;
 
     @Expose()
     username?: string;
 
     @Expose()
     email?: string;
-
-    @Expose()
-    searchQuery?: string;
-
-    @Expose()
-    userStatus?: string;
 }
 
 export class GetUsersRequest extends FindUserRequest {
@@ -42,6 +36,9 @@ export class GetUsersRequest extends FindUserRequest {
 
     @Expose()
     userType: string;
+
+    @Expose()
+    userStatus?: string;
 }
 
 export class SearchUsersRequest extends PaginatedRequest {
@@ -51,7 +48,7 @@ export class SearchUsersRequest extends PaginatedRequest {
 
 export class UpdateUserRequest {
     @Expose()
-    userId: string;
+    userId: number;
 
     @Expose()
     username: string;

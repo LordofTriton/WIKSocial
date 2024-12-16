@@ -38,7 +38,7 @@ export class GoogleAuthRequest {
 
 export class ChangePasswordRequest {
     @Expose()
-    userId: string;
+    userId: number;
 
     @Expose()
     currentPassword: string;
@@ -52,7 +52,7 @@ export class ChangePasswordRequest {
 
 export class ForgotPasswordRequest {
     @Expose()
-    userId: string;
+    userId: number;
 
     @Expose()
     identifier: string;
@@ -63,7 +63,7 @@ export class ForgotPasswordRequest {
 
 export class ResetPasswordRequest {
     @Expose()
-    userId: string;
+    userId: number;
 
     @Expose()
     resetCode: string;
@@ -77,7 +77,7 @@ export class ResetPasswordRequest {
 
 export class VerifyEmailRequest {
     @Expose()
-    userId: string;
+    userId: number;
 
     @Expose()
     verificationCode: string;

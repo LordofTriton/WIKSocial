@@ -10,6 +10,8 @@ import { NextRouter } from 'next/router';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { useRouter, usePathname, useParams, useSearchParams, ReadonlyURLSearchParams } from 'next/navigation';
 import { Params } from 'next/dist/server/request/params';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { queryClient } from '../config/queryClient.config';
 
 interface IAppContext {
   activeUser: Partial<User> | null;
@@ -151,7 +153,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         searchParams
       }}
     >
-      {children}
+      <QueryClientProvider client={queryClient}>
+        {children}
+      </QueryClientProvider>
     </AppContext.Provider>
   );
 };
