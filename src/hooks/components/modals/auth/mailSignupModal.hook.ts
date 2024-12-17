@@ -7,24 +7,25 @@ import { useApp } from "../../../../providers/app.provider";
 import { useToast } from "../../../../providers/toast.provider";
 import { WikResponse } from "../../../../constants/responses/response";
 import { AuthUserResponse } from "../../../../constants/responses/auth.responses";
-import { LoginAction } from "../../../../actions/auth/login.action";
 import { useModal } from "../../../../providers/modal.provider";
 import { FindUserAction } from "../../../../actions/user/findUser.action";
+import { SignupAction } from "../../../../actions/auth/signup.action";
 import { FindSettingsAction } from "../../../../actions/settings/findSettings.action";
 
-export const useMailLoginModal = () => {
+export const useMailSignupModal = () => {
     const { router, activeUser, updateAccessCode, updateActiveUser, updateActiveSettings } = useApp();
     const { currentModal, toggleModal, closeModal } = useModal();
 
     const toast = useToast();
 
-    const [loginData, setLoginData] = useState({
+    const [signupData, setSignupData] = useState({
+        username: "",
         email: "",
         password: ""
     })
 
     const onSuccess = async (data: AuthUserResponse) => {
-        toast.success("Login successful!");
+        toast.success("Sign Up successful!");
         await updateAccessCode(data.accessCode);
 
         let user = await FindUserAction({ userId: data.userId });
@@ -41,7 +42,7 @@ export const useMailLoginModal = () => {
     }
 
     const { mutate: onSubmit, isPending: loading } = useMutation({
-        mutationFn: async () => await LoginAction(loginData),
+        mutationFn: async () => await SignupAction(signupData),
         onSuccess: (response: WikResponse<AuthUserResponse> | null) => {
             if (!response) return;
             console.log(response)
@@ -57,8 +58,8 @@ export const useMailLoginModal = () => {
         toast,
         activeUser,
 
-        loginData,
-        setLoginData,
+        signupData,
+        setSignupData,
 
         onSubmit,
         loading,

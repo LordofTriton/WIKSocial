@@ -2,7 +2,7 @@ import { instanceToPlain, plainToInstance, ClassConstructor } from 'class-transf
 
 export class WikMapper {
     
-    static map<T>(data: any, klass: ClassConstructor<T>): T {
+    static map<T>(data: any, klass: ClassConstructor<T>, toPlain: boolean = false): T {
         if (!data) throw new Error("Invalid map data.");
         
         const mapped = plainToInstance(klass, data, { excludeExtraneousValues: true })
@@ -11,6 +11,10 @@ export class WikMapper {
             if (mapped[key] === undefined) delete mapped[key];
         }
 
-        return mapped;
+        return toPlain ? this.toObject(mapped) as T : mapped;
+    }
+
+    static toObject(data: any) {
+        return instanceToPlain(data);
     }
 }

@@ -1,6 +1,8 @@
+"use server";
+
 import { WikResponse } from "../constants/responses/response";
 
-export function WikServerAction<K, T>(action: (params: K) => Promise<WikResponse<T>>) {
+export async function WikServerAction<K, T>(action: (params: K) => Promise<WikResponse<T>>) {
     return async (params: K) => {
         try {
             return await action(params);

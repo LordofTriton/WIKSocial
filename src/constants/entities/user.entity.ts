@@ -38,14 +38,17 @@ export class User {
   resetCode: string;
   
   @Expose()
-  lastLogin: number;
+  lastLogin: string;
   
   @Expose()
-  lastActive: number;
+  lastActive: string;
   
   @Expose()
-  dateCreated: number;
+  dateCreated: string;
 
-  profileImage: CloudFile;
-  coverImage: CloudFile;
+  @Expose()
+  profileImage?: CloudFile;
+  
+  @Expose()
+  coverImage?: CloudFile;
 }

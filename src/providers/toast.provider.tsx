@@ -17,7 +17,14 @@ const ToastContext = createContext<IToastContext>({} as IToastContext);
 export const useToast = () => useContext(ToastContext);
 
 export const ToastProvider = ({ children }: { children: ReactNode }) => {
-    const [toastQueue, setToastQueue] = useState<Toast[]>([]);
+    const [toastQueue, setToastQueue] = useState<Toast[]>([
+        {
+            id: 1,
+            message: "Hello World!",
+            type: ToastTypeEnum.SUCCESS,
+            delay: 10000000000
+        }
+    ]);
 
     const addToast = (message: string, type: string, delay?: number) => {
         const toastId = Date.now();
@@ -42,26 +49,16 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
             error: (message: string, delay?: number) => addToast(message, ToastTypeEnum.ERROR, delay)
         }}>
             {children}
+
             {
                 toastQueue.length > 0 && (
-                    <Box style={{
-                        position: "absolute",
-                        bottom: 0,
-                        left: 0,
-                        top: 0,
-                        right: 0,
-                        flexDirection: "column-reverse",
-                        padding: 25,
-                        pointerEvents: "none",
-                        justifyContent: "flex-start",
-                        alignItems: "center"
-                    }}>
+                    <div className="flex fixed inset-0 flex-col p-5 justify-start items-end z-20">
                         {
                             toastQueue.map((toast, index) =>
                                 <ToastMessage data={toast} onRemove={() => removeToast(toast.id)} key={index} />
                             )
                         }
-                    </Box>
+                    </div>
                 )
             }
         </ToastContext.Provider>

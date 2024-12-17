@@ -29,7 +29,7 @@ interface IAppContext {
   isAuthenticated: boolean;
   isFetchingData: boolean;
 
-  logOutUser: (callback: () => void) => void;
+  logOutUser: (callback?: () => void) => void;
 
   router: AppRouterInstance;
   pathname: string;
@@ -117,14 +117,14 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     await Cache.saveData(STORE_KEYS.ACTIVE_SETTINGS, JSON.stringify(updatedSettings));
   };
 
-  const logOutUser = async (callback: () => void) => {
+  const logOutUser = async (callback?: () => void) => {
     await Cache.clearData();
     setActiveUser(null);
     setAccessCode("");
     setIsAuthenticated(false);
     setIsFetchingData(true);
 
-    callback();
+    if (callback) callback();
   };
 
   return (

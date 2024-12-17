@@ -5,7 +5,7 @@ import { ToastTypeEnum } from "../../constants/enums/misc.enums";
 import { Toast } from "../../constants/models/toast.model";
 import { Text } from "./text.component";
 import { Box } from "./box.component";
-import { XMarkIcon } from "@heroicons/react/24/solid";
+import { CheckCircleIcon, InformationCircleIcon, XCircleIcon, XMarkIcon } from "@heroicons/react/24/solid";
 
 interface IProps {
     data: Toast;
@@ -18,52 +18,20 @@ export const ToastMessage: React.FC<IProps> = ({
 }) => {
 
     return (
-        <Box style={{
-            width: "500px",
-            flexDirection: "row",
-            backgroundColor: "white",
-            borderRadius: "50px",
-            padding: "10px 10px",
-            marginTop: "15px",
-            alignItems: "center",
-            pointerEvents: "auto"
-        }}>
-            {/* <img
-                src={
-                    data.type === ToastTypeEnum.SUCCESS ? Asset.SuccessImage :
-                    data.type === ToastTypeEnum.ERROR ? Asset.ErrorImage : Asset.LogoImage2
-                }
-                style={{
-                    width: 35,
-                    height: 35
-                }}
-            /> */}
+        <div className="w-80 flex flex-row bg-white dark:bg-eerie-black rounded-xl px-3 mt-2 justify-center items-center pointer-events-auto">
+            {
+                data.type === ToastTypeEnum.SUCCESS ? <CheckCircleIcon className="w-8 h-8 text-green-400" /> :
+                data.type === ToastTypeEnum.ERROR ? <XCircleIcon className="w-8 h-8 text-red-500" /> :
+                <InformationCircleIcon className="w-8 h-8 text-purple-400" />
+            }
 
-            <Box style={{
-                flex: 1,
-                flexDirection: "row",
-                justifyContent: "flex-start",
-                alignItems: "center",
-                margin: "0px 15px"
-            }}>
-                <Text size={13} style={{
-                    flex: 1,
-                    color: "black",
-                    fontWeight: "500",
-                }}>
-                    {data.message}
-                </Text>
-            </Box>
+            <div className="flex flex-1 flex-row justify-start items-center mx-3 my-5">
+                <span className="flex flex-1 text-sm text-black font-medium">{data.message}</span>
+            </div>
 
-            <Box style={{
-                width: 30,
-                height: 30,
-                justifyContent: "center",
-                cursor: "pointer"
-            }} onClick={() => onRemove()}>
-                <XMarkIcon className="w-20 h-20 text-black" />
-            </Box>
-
-        </Box>
+            <div className="flex w-8 h-8 justify-center items-center cursor-pointer" onClick={() => onRemove()}>
+                <XMarkIcon className="w-6 h-6 text-black" />
+            </div>
+        </div>
     );
 };

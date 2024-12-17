@@ -36,7 +36,7 @@ export default {
         'whitesmoke': '#F2F2F2',
         'tang-blue': '#0A5DD7',
         'alice-blue': '#D9F0FE',
-        'anti-flash-white': '#F0F0F0',
+        'arctic-white': '#F0F0F0',
         'celestial-blue': '#1493E5',
         'night': '#161616',
         'raisin-black': '#27282C',

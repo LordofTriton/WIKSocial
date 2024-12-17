@@ -9,10 +9,9 @@ import DatetimeHelper from "../../helpers/datetime.helper";
 import { PasswordHelper } from "../../helpers/password.helper";
 import Generator from "../../util/generator.util";
 import { WikMapper } from "../../util/mapper.util";
-import { WikServerAction } from "../base.action";
 
-
-export async function Login(data: LoginRequest): Promise<WikResponse<AuthUserResponse>> {
+export async function LoginAction(data: LoginRequest): Promise<WikResponse<AuthUserResponse>> {
+  try {
     const user = await Prisma.user.findFirst({ where: { email: data.email } });
     if (!user) return WikResponse.Failure({ error: "No user with this email exists." });
 
@@ -30,7 +29,10 @@ export async function Login(data: LoginRequest): Promise<WikResponse<AuthUserRes
 
     await Prisma.user.update({ where: { userId: user.userId }, data: user });
 
-    return WikResponse.Success({ data: WikMapper.map(user, AuthUserResponse), message: "Login successful." });
+    return WikResponse.Success({ data: WikMapper.map(user, AuthUserResponse, true), message: "Login successful." });
+  }
+  catch (error) {
+      console.error('Error in server action:', error);
+      throw new Error('An unexpected error occurred. Please try again.');
+  }
 }
-
-export const LoginAction = WikServerAction<LoginRequest, AuthUserResponse>(Login);

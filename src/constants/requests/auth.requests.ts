@@ -17,9 +17,6 @@ export class SignupRequest {
     
     @Expose()
     password: string;
-    
-    @Expose()
-    confirmPassword: string;
 }
 
 export class GoogleAuthRequest {

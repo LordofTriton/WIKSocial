@@ -2,41 +2,38 @@ import { Expose } from 'class-transformer';
 
 export class UpdateSettingsRequest {
     @Expose()
-    settingsId: number;
-
-    @Expose()
     userId: number;
 
     @Expose()
-    emailCommentReplies: boolean;
+    emailCommentReplies?: boolean;
 
     @Expose()
-    emailCommentMentions: boolean;
+    emailCommentMentions?: boolean;
 
     @Expose()
-    emailNewPostComment: boolean;
+    emailNewPostComment?: boolean;
 
     @Expose()
-    emailNewPosts: boolean;
+    emailNewPosts?: boolean;
 
     @Expose()
-    emailBestOfTheWeek: boolean;
+    emailBestOfTheWeek?: boolean;
 
     @Expose()
-    emailPostCommentRatings: boolean;
+    emailPostCommentRatings?: boolean;
 
     @Expose()
-    commentReplies: boolean;
+    commentReplies?: boolean;
 
     @Expose()
-    commentMentions: boolean;
+    commentMentions?: boolean;
 
     @Expose()
-    newPostComment: boolean;
+    newPostComment?: boolean;
 
     @Expose()
-    newFollowers: boolean;
+    newFollowers?: boolean;
 
     @Expose()
-    postCommentRatings: boolean;
+    postCommentRatings?: boolean;
 }

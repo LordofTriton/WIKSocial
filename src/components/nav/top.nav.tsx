@@ -10,7 +10,7 @@ import { useApp } from "../../providers/app.provider";
 import { useModal } from "../../providers/modal.provider";
 
 export const TopNav = () => {
-    const { toggleDarkMode, isAuthenticated, router } = useApp();
+    const { activeUser, toggleDarkMode, isAuthenticated, logOutUser, router } = useApp();
     const { toggleModal } = useModal();
 
     const { state: showAccDrop, setState: setShowAccDrop, ref: accountDropRef } = useDrop();
@@ -38,7 +38,7 @@ export const TopNav = () => {
                     {
                         isAuthenticated ?
                         <div className="flex flex-row justify-between items-center" onClick={() => setShowAccDrop(true)}>
-                            <div className="w-11 h-11 bg-cover bg-center bg-no-repeat rounded-full cursor-pointer" style={{ backgroundImage: "url(/assets/images/avatars/One.png)" }}>
+                            <div className="w-11 h-11 bg-cover bg-center bg-no-repeat rounded-full cursor-pointer" style={{ backgroundImage: `url(${activeUser?.profileImage?.uri ? activeUser.profileImage.uri : "/assets/images/avatars/One.png"})` }}>
                             </div>
                             <ChevronDownIcon className="w-7 h-4 text-black dark:text-white cursor-pointer" />
                         </div> :
@@ -53,10 +53,10 @@ export const TopNav = () => {
                                 <span className="text-base text-black dark:text-gray-300 font-semibold mb-3">My Profile</span>
 
                                 <div className="flex flex-row justify-between items-center">
-                                    <div className="w-14 h-14 bg-cover bg-center bg-no-repeat rounded-full" style={{ backgroundImage: "url(/assets/images/avatars/One.png)" }}>
+                                    <div className="w-14 h-14 bg-cover bg-center bg-no-repeat rounded-full" style={{ backgroundImage: `url(${activeUser?.profileImage?.uri ? activeUser.profileImage.uri : "/assets/images/avatars/One.png"})` }}>
                                     </div>
                                     <div className="flex flex-col flex-1 w-64 pl-4">
-                                        <span className="text-xl text-black dark:text-gray-300 font-semibold">LordTriton</span>
+                                        <span className="text-xl text-black dark:text-gray-300 font-semibold">{activeUser?.username ?? ""}</span>
                                         <span className="text-base text-black dark:text-gray-300 font-medium">Personal Blog</span>
                                     </div>
                                 </div>
@@ -100,7 +100,7 @@ export const TopNav = () => {
                                     <SlDiamond className="w-7 h-7 mr-1" />
                                     <span className="text-base flex-1 font-medium px-3 py-0">Plus Subscription</span>
                                 </div>
-                                <div className="flex flex-row justify-between items-center mt-3 px-2 hover:bg-whitesmoke text-night dark:text-gray-400 py-2 rounded-xl cursor-pointer">
+                                <div className="flex flex-row justify-between items-center mt-3 px-2 hover:bg-whitesmoke text-night dark:text-gray-400 py-2 rounded-xl cursor-pointer" onClick={() => logOutUser(() => setShowAccDrop(false))}>
                                     <ArrowRightStartOnRectangleIcon className="w-7 h-7 mr-1" />
                                     <span className="text-base flex-1 font-medium px-3 py-0">Exit</span>
                                 </div>

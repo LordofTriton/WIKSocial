@@ -1,6 +1,6 @@
 import { Post } from "../components/common/post.component";
 
-export default function Home() {
+export default function HomePage() {
   return (
     <div className="">
       {
