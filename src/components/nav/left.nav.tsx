@@ -35,7 +35,7 @@ const menuButtons = [
         label: "My Feed",
         icon: <PiCheckSquareOffset className="w-6 h-6 text-night dark:text-gray-300" />,
         activeIcon: <PiCheckSquareOffset className="w-6 h-6 text-celestial-blue" />,
-        route: "/feed",
+        route: "/my-feed",
         alert: true
     },
     {

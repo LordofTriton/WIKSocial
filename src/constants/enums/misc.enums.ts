@@ -9,3 +9,9 @@ export enum ThemeEnum {
     DARK = "DARK",
     SYSTEM = "SYSTEM"
 }
+
+export enum HomeDetaultTabEnum {
+    POPULAR = 'POPULAR',
+    FRESH = 'FRESH',
+    MY_FEED = 'MY_FEED'
+}

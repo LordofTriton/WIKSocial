@@ -8,6 +8,7 @@ import { SlDiamond } from "react-icons/sl";
 import useDrop from "../../hooks/misc/useDrop";
 import { useApp } from "../../providers/app.provider";
 import { useModal } from "../../providers/modal.provider";
+import Link from "next/link";
 
 export const TopNav = () => {
     const { activeUser, toggleDarkMode, isAuthenticated, logOutUser, router } = useApp();
@@ -18,7 +19,7 @@ export const TopNav = () => {
 
     return (
         <div className="flex flex-row h-16 sticky top-0 z-10 bg-alice-blue dark:bg-raisin-black justify-between items-center px-28">
-            <h4 className="font-russoOne text-black dark:text-white text-4xl">WIK</h4>
+            <Link href="/"><h4 className="font-russoOne text-black dark:text-white text-4xl">WIK</h4></Link>
 
             <div className="h-full flex flex-row justify-end items-center">
                 <div className="flex justify-center items-center cursor-pointer mr-6">
@@ -61,46 +62,46 @@ export const TopNav = () => {
                                     </div>
                                 </div>
 
-                                <div className="flex flex-row justify-between items-center mt-6 px-2 hover:bg-whitesmoke text-night dark:text-gray-400 py-2 rounded-xl cursor-pointer">
+                                <div className="flex flex-row justify-between items-center mt-6 px-2 hover:bg-whitesmoke dark:hover:bg-ash text-night dark:text-gray-300 py-2 rounded-xl cursor-pointer">
                                     <PencilSquareIcon className="w-7 h-7 mr-1" />
                                     <span className="text-base flex-1 font-medium px-3 py-0">Drafts</span>
                                 </div>
-                                <div className="flex flex-row justify-between items-center mt-3 px-2 hover:bg-whitesmoke text-night dark:text-gray-400 py-2 rounded-xl cursor-pointer">
+                                <div className="flex flex-row justify-between items-center mt-3 px-2 hover:bg-whitesmoke dark:hover:bg-ash text-night dark:text-gray-300 py-2 rounded-xl cursor-pointer">
                                     <BookmarkIcon className="w-7 h-7 mr-1" />
                                     <span className="text-base flex-1 font-medium px-3 py-0">Bookmarks</span>
                                 </div>
-                                <div className="flex flex-row justify-between items-center mt-3 px-2 hover:bg-whitesmoke text-night dark:text-gray-400 py-2 rounded-xl">
+                                <div className="flex flex-row justify-between items-center mt-3 px-2 hover:bg-whitesmoke dark:hover:bg-ash text-night dark:text-gray-300 py-2 rounded-xl cursor-pointer">
                                     <CurrencyDollarIcon className="w-7 h-7 mr-1" />
                                     <span className="text-base flex-1 font-medium px-3 py-0">Donations</span>
                                 </div>
-                                <div className="flex flex-row justify-between items-center mt-3 px-2 hover:bg-whitesmoke text-night dark:text-gray-400 py-2 rounded-xl cursor-pointer">
+                                <div className="flex flex-row justify-between items-center mt-3 px-2 hover:bg-whitesmoke dark:hover:bg-ash text-night dark:text-gray-300 py-2 rounded-xl cursor-pointer" onClick={() => router.push("/settings")}>
                                     <Cog6ToothIcon className="w-7 h-7 mr-1" />
                                     <span className="text-base flex-1 font-medium px-3 py-0">Settings</span>
                                     <div className="relative">
-                                        <BsCircleHalf className="w-5 h-5 text-black dark:text-gray-400" onClick={() => setShowThemeDrop(true)} />
+                                        <BsCircleHalf className="w-5 h-5" onClick={(e) => { e.stopPropagation(); setShowThemeDrop(true) }} />
 
                                         {
                                             showThemeDrop && (
                                                 <div ref={themeDropRef} className="w-48 bg-white dark:bg-eerie-black rounded-xl p-2 absolute top-full right-0 shadow-md">
-                                                    <div className="flex flex-row justify-between items-center px-2 hover:bg-whitesmoke py-2 rounded-xl cursor-pointer">
-                                                        <span className="text-sm text-night dark:text-gray-300 flex-1 font-medium px-3 py-0">As on the device</span>
+                                                    <div className="flex flex-row justify-between items-center px-2 hover:bg-whitesmoke py-2 rounded-xl cursor-pointer text-night dark:text-gray-300 dark:hover:text-night">
+                                                        <span className="text-sm flex-1 font-medium px-3 py-0">As on the device</span>
                                                     </div>
-                                                    <div className="flex flex-row justify-between items-center px-2 hover:bg-whitesmoke py-2 rounded-xl cursor-pointer" onClick={() => {toggleDarkMode(); setShowThemeDrop(false)}}>
-                                                        <span className="text-sm text-night dark:text-gray-300 flex-1 font-medium px-3 py-0">Light</span>
+                                                    <div className="flex flex-row justify-between items-center px-2 hover:bg-whitesmoke py-2 rounded-xl cursor-pointer text-night dark:text-gray-300 dark:hover:text-night" onClick={(e) => {e.stopPropagation(); toggleDarkMode(); setShowThemeDrop(false)}}>
+                                                        <span className="text-sm flex-1 font-medium px-3 py-0">Light</span>
                                                     </div>
-                                                    <div className="flex flex-row justify-between items-center px-2 hover:bg-whitesmoke py-2 rounded-xl cursor-pointer" onClick={() => {toggleDarkMode(); setShowThemeDrop(false)}}>
-                                                        <span className="text-sm text-night dark:text-gray-300 flex-1 font-medium px-3 py-0">Dark</span>
+                                                    <div className="flex flex-row justify-between items-center px-2 hover:bg-whitesmoke py-2 rounded-xl cursor-pointer text-night dark:text-gray-300 dark:hover:text-night" onClick={(e) => {e.stopPropagation(); toggleDarkMode(); setShowThemeDrop(false)}}>
+                                                        <span className="text-sm flex-1 font-medium px-3 py-0">Dark</span>
                                                     </div>
                                                 </div>
                                             )
                                         }
                                     </div> 
                                 </div>
-                                <div className="flex flex-row justify-between items-center mt-3 px-2 hover:bg-whitesmoke text-night dark:text-gray-400 py-2 rounded-xl cursor-pointer">
+                                <div className="flex flex-row justify-between items-center mt-3 px-2 hover:bg-whitesmoke dark:hover:bg-ash text-night dark:text-gray-300 py-2 rounded-xl cursor-pointer">
                                     <SlDiamond className="w-7 h-7 mr-1" />
                                     <span className="text-base flex-1 font-medium px-3 py-0">Plus Subscription</span>
                                 </div>
-                                <div className="flex flex-row justify-between items-center mt-3 px-2 hover:bg-whitesmoke text-night dark:text-gray-400 py-2 rounded-xl cursor-pointer" onClick={() => logOutUser(() => setShowAccDrop(false))}>
+                                <div className="flex flex-row justify-between items-center mt-3 px-2 hover:bg-whitesmoke dark:hover:bg-ash text-night dark:text-gray-300 py-2 rounded-xl cursor-pointer" onClick={() => logOutUser(() => { setShowAccDrop(false); router.push("/"); })}>
                                     <ArrowRightStartOnRectangleIcon className="w-7 h-7 mr-1" />
                                     <span className="text-base flex-1 font-medium px-3 py-0">Exit</span>
                                 </div>

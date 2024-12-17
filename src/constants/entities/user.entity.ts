@@ -1,7 +1,8 @@
 import { Expose } from 'class-transformer';
 import { CloudFile } from '../models/cloudFile.model';
+import { User as PrismaUser } from '@prisma/client';
 
-export class User {
+export class User implements PrismaUser {
   @Expose()
   userId: number;
 
@@ -16,6 +17,9 @@ export class User {
 
   @Expose()
   email: string;
+
+  @Expose()
+  bio: string;
 
   password: string;
 
@@ -45,6 +49,15 @@ export class User {
   
   @Expose()
   dateCreated: string;
+  
+  @Expose()
+  googleId: string;
+  
+  @Expose()
+  yandexId: string;
+  
+  @Expose()
+  vkontakteId: string;
 
   @Expose()
   profileImage?: CloudFile;

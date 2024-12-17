@@ -15,12 +15,16 @@ model User {
   profileImageId    Int?        @unique
   coverImageId      Int?        @unique
   rating            Int         @default(0)
+  bio               String      @db.VarChar(256) @default("I am a human :D")
   userType          String      @db.VarChar(256) @default("BASIC")
   userStatus        String      @db.VarChar(256) @default("INACTIVE")
   isSetupComplete   Boolean     @default(false)
   verificationCode  String?     
   accessCode        String?     
   resetCode         String?     
+  googleId          String?     @unique
+  yandexId          String?     @unique
+  vkontakteId       String?     @unique
   lastLogin         String      @default(dbgenerated("to_char(current_timestamp, 'YYYY-MM-DD HH24:MI:SS.MS')"))
   lastActive        String      @default(dbgenerated("to_char(current_timestamp, 'YYYY-MM-DD HH24:MI:SS.MS')"))
   dateCreated       String      @default(dbgenerated("to_char(current_timestamp, 'YYYY-MM-DD HH24:MI:SS.MS')"))
@@ -52,8 +56,8 @@ model Exception {
 }
 
 model Settings {
-  settingsId                Int         @id @default(autoincrement())
-  userId                    Int         
+  settingsId                Int         @default(autoincrement())
+  userId                    Int         @id
   emailCommentReplies       Boolean     @default(true)
   emailCommentMentions      Boolean     @default(true)
   emailNewPostComment       Boolean     @default(true)
@@ -66,6 +70,9 @@ model Settings {
   newFollowers              Boolean     @default(true)
   postCommentRatings        Boolean     @default(true)  
   darkMode                  Boolean     @default(false)  
+  homeDefault               String      @default("POPULAR")
+  feedSort                  String      @default("DATE")
+  blurSensitiveContent      Boolean     @default(true) 
   dateCreated               String      @default(dbgenerated("to_char(current_timestamp, 'YYYY-MM-DD HH24:MI:SS.MS')"))
 }
 

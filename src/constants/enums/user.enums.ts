@@ -2,7 +2,8 @@ export enum UserStatusEnum {
   ACTIVE = 'ACTIVE',
   INACTIVE = 'INACTIVE',
   DEACTIVATED = 'DEACTIVATED',
-  RESTRICTED = 'RESTRICTED'
+  RESTRICTED = 'RESTRICTED',
+  DELETED = 'DELETED'
 }
 
 export enum UserTypeEnum {

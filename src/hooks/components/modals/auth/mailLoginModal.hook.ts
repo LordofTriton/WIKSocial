@@ -7,10 +7,8 @@ import { useApp } from "../../../../providers/app.provider";
 import { useToast } from "../../../../providers/toast.provider";
 import { WikResponse } from "../../../../constants/responses/response";
 import { AuthUserResponse } from "../../../../constants/responses/auth.responses";
-import { LoginAction } from "../../../../actions/auth/login.action";
 import { useModal } from "../../../../providers/modal.provider";
-import { FindUserAction } from "../../../../actions/user/findUser.action";
-import { FindSettingsAction } from "../../../../actions/settings/findSettings.action";
+import { Action } from "../../../../actions/action";
 
 export const useMailLoginModal = () => {
     const { router, activeUser, updateAccessCode, updateActiveUser, updateActiveSettings } = useApp();
@@ -27,11 +25,11 @@ export const useMailLoginModal = () => {
         toast.success("Login successful!");
         await updateAccessCode(data.accessCode);
 
-        let user = await FindUserAction({ userId: data.userId });
-        if (user.data) await updateActiveUser(user.data);
+        let user = await Action.FindUser({ userId: data.userId });
+        if (user.data) await updateActiveUser(user.data, false);
 
-        let settings = await FindSettingsAction(data.userId);
-        if (settings.data) await updateActiveSettings(settings.data);
+        let settings = await Action.FindSettings(data.userId);
+        if (settings.data) await updateActiveSettings(settings.data, false);
 
         closeModal();
     }
@@ -41,7 +39,7 @@ export const useMailLoginModal = () => {
     }
 
     const { mutate: onSubmit, isPending: loading } = useMutation({
-        mutationFn: async () => await LoginAction(loginData),
+        mutationFn: async () => await Action.Login(loginData),
         onSuccess: (response: WikResponse<AuthUserResponse> | null) => {
             if (!response) return;
             console.log(response)

@@ -47,20 +47,34 @@ export class SearchUsersRequest extends PaginatedRequest {
 }
 
 export class UpdateUserRequest {
-    @Expose()
     userId: number;
 
     @Expose()
     username: string;
 
     @Expose()
-    profileImage: CloudFile;
+    profileImageId: number;
+  
+    @Expose()
+    coverImageId: number;
 
     @Expose()
     email: string;
 
     @Expose()
+    bio: string;
+
+    @Expose()
     password: string;
+  
+    @Expose()
+    googleId: string;
+    
+    @Expose()
+    yandexId: string;
+    
+    @Expose()
+    vkontakteId: string;
 
     @Expose()
     firebaseToken?: string;

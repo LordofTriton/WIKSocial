@@ -1,7 +1,6 @@
 import { Expose } from 'class-transformer';
 
 export class UpdateSettingsRequest {
-    @Expose()
     userId: number;
 
     @Expose()
@@ -36,4 +35,16 @@ export class UpdateSettingsRequest {
 
     @Expose()
     postCommentRatings?: boolean;
+
+    @Expose()
+    darkMode: boolean;
+
+    @Expose()
+    homeDefault: string;
+
+    @Expose()
+    feedSort: string;
+
+    @Expose()
+    blurSensitiveContent: boolean;
 }

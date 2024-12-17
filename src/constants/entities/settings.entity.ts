@@ -42,4 +42,13 @@ export class Settings {
 
     @Expose()
     darkMode: boolean;
+
+    @Expose()
+    homeDefault: string;
+
+    @Expose()
+    feedSort: string;
+
+    @Expose()
+    blurSensitiveContent: boolean;
 }

@@ -17,14 +17,7 @@ const ToastContext = createContext<IToastContext>({} as IToastContext);
 export const useToast = () => useContext(ToastContext);
 
 export const ToastProvider = ({ children }: { children: ReactNode }) => {
-    const [toastQueue, setToastQueue] = useState<Toast[]>([
-        {
-            id: 1,
-            message: "Hello World!",
-            type: ToastTypeEnum.SUCCESS,
-            delay: 10000000000
-        }
-    ]);
+    const [toastQueue, setToastQueue] = useState<Toast[]>([]);
 
     const addToast = (message: string, type: string, delay?: number) => {
         const toastId = Date.now();
