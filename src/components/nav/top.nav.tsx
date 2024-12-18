@@ -101,7 +101,7 @@ export const TopNav = () => {
                                     <SlDiamond className="w-7 h-7 mr-1" />
                                     <span className="text-base flex-1 font-medium px-3 py-0">Plus Subscription</span>
                                 </div>
-                                <div className="flex flex-row justify-between items-center mt-3 px-2 hover:bg-whitesmoke dark:hover:bg-ash text-night dark:text-gray-300 py-2 rounded-xl cursor-pointer" onClick={() => logOutUser(() => { setShowAccDrop(false); router.push("/"); })}>
+                                <div className="flex flex-row justify-between items-center mt-3 px-2 hover:bg-whitesmoke dark:hover:bg-ash text-night dark:text-gray-300 py-2 rounded-xl cursor-pointer" onClick={() => logOutUser(() => { setShowAccDrop(false); router.push("/", { scroll: false }); })}>
                                     <ArrowRightStartOnRectangleIcon className="w-7 h-7 mr-1" />
                                     <span className="text-base flex-1 font-medium px-3 py-0">Exit</span>
                                 </div>

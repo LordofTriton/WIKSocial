@@ -5,6 +5,9 @@ import { AppProvider } from "../providers/app.provider";
 import { ToastProvider } from "../providers/toast.provider";
 import { MainLayout } from "../components/layout/main.layout";
 import { ModalProvider } from "../providers/modal.provider";
+import { cookies } from 'next/headers';
+import { CACHE_KEYS } from "../config/cache.config";
+import { GetRedis } from "../util/redis.util";
 
 const roboto = Roboto({
   weight: ["100", "300", "400", "500", "700", "900"],
@@ -24,16 +27,24 @@ export const metadata: Metadata = {
   keywords: ['Games', 'Movies', 'Series', 'Development', 'Community'],
 };
 
-export default function RootLayout({
-  children,
+export default async function RootLayout({
+  children
 }: Readonly<{
   children: React.ReactNode;
+  cachedData: any
 }>) {
+  const cookieStore = await cookies();
+
+  const sessionId = cookieStore.get("sessionId");
+
+  const accessCodeData = sessionId ? await GetRedis(sessionId.value, CACHE_KEYS.REDIS_ACCESS_CODE) : null;
+  const activeUserData = sessionId ? await GetRedis(sessionId.value, CACHE_KEYS.REDIS_USER) : null;
+  const activeSettingsData = sessionId ? await GetRedis(sessionId.value, CACHE_KEYS.REDIS_SETTINGS) : null;
 
   return (
     <html lang="en">
       <body className={`${roboto.className} antialiased relative`}>
-        <AppProvider>
+        <AppProvider cachedData={{ activeUserData, activeSettingsData, accessCodeData }}>
             <ToastProvider>
               <ModalProvider>
                 <MainLayout>

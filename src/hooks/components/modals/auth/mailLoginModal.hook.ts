@@ -23,7 +23,7 @@ export const useMailLoginModal = () => {
 
     const onSuccess = async (data: AuthUserResponse) => {
         toast.success("Login successful!");
-        await updateAccessCode(data.accessCode);
+        await updateAccessCode(data.userId, data.accessCode);
 
         let user = await Action.FindUser({ userId: data.userId });
         if (user.data) await updateActiveUser(user.data, false);

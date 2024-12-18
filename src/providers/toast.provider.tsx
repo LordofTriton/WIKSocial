@@ -45,7 +45,7 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
 
             {
                 toastQueue.length > 0 && (
-                    <div className="flex fixed inset-0 flex-col p-5 justify-start items-end z-20">
+                    <div className="flex fixed inset-0 flex-col p-5 justify-start items-end z-20 pointer-events-none">
                         {
                             toastQueue.map((toast, index) =>
                                 <ToastMessage data={toast} onRemove={() => removeToast(toast.id)} key={index} />

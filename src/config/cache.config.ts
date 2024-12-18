@@ -1,0 +1,7 @@
+export const STORE_NAME = "@WIK";
+
+export const CACHE_KEYS = {
+    REDIS_ACCESS_CODE: `REDIS_ACCESS_CODE`,
+    REDIS_USER: `REDIS_USER`,
+    REDIS_SETTINGS: `REDIS_SETTINGS`
+};

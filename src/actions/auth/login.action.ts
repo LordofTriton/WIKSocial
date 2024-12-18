@@ -7,6 +7,7 @@ import { AuthUserResponse } from "../../constants/responses/auth.responses";
 import { WikResponse } from "../../constants/responses/response";
 import DatetimeHelper from "../../helpers/datetime.helper";
 import { PasswordHelper } from "../../helpers/password.helper";
+import { cookies } from 'next/headers';
 import Generator from "../../util/generator.util";
 import { WikMapper } from "../../util/mapper.util";
 
@@ -31,6 +32,9 @@ export async function LoginAction(data: LoginRequest): Promise<WikResponse<AuthU
   if (DatetimeHelper.hoursBetween(user.lastLogin, Date.now()) > 24) user.accessCode = Generator.GenerateToken(32);
 
   await Prisma.user.update({ where: { userId: user.userId }, data: user });
+
+  const cookieStore = await cookies();
+  cookieStore.set('sessionId', `session:${user.userId}`, { httpOnly: true, secure: true, maxAge: 60 * 60 * 24 * 30, path: '/' });
 
   return WikResponse.Success({ data: WikMapper.map(user, AuthUserResponse, true), message: "Login successful." });
 }

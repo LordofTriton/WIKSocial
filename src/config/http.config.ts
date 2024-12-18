@@ -1,6 +1,4 @@
 import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
-import { STORE_KEYS } from './store.config';
-import Cache from '../utils/cache.util';
 
 const BASE_API_URL = "https://wiksocial.onrender.com";
 
@@ -15,14 +13,6 @@ export class WikHttpClient {
                 "Content-Type": "application/json",
             },
         });
-
-        this.client.interceptors.request.use(async (config) => {
-            const accessCode = await Cache.getData(STORE_KEYS.ACCESS_CODE);
-
-            if (accessCode) config.headers.Authorization = `Bearer ${accessCode}`;
-            
-            return config;
-        }, error => Promise.reject(error));
 
         this.client.interceptors.response.use( 
             (response: AxiosResponse) => response,

@@ -24,13 +24,13 @@ export const useMailSignupModal = () => {
 
     const onSuccess = async (data: AuthUserResponse) => {
         toast.success("Sign Up successful!");
-        await updateAccessCode(data.accessCode);
+        await updateAccessCode(data.userId, data.accessCode);
 
         let user = await Action.FindUser({ userId: data.userId });
-        if (user.data) await updateActiveUser(user.data);
+        if (user.data) await updateActiveUser(user.data, false);
 
         let settings = await Action.FindSettings(data.userId);
-        if (settings.data) await updateActiveSettings(settings.data);
+        if (settings.data) await updateActiveSettings(settings.data, false);
 
         closeModal();
     }

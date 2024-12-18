@@ -6,6 +6,7 @@ import { AuthUserResponse } from "../../constants/responses/auth.responses";
 import { WikResponse } from "../../constants/responses/response";
 import { NumberHelper } from "../../helpers/number.helper";
 import { PasswordHelper } from "../../helpers/password.helper";
+import { cookies } from 'next/headers';
 import Generator from "../../util/generator.util";
 import { WikMapper } from "../../util/mapper.util";
 
@@ -19,7 +20,7 @@ export async function SignupAction(data: SignupRequest): Promise<WikResponse<Aut
     const createdUser = await Prisma.user.create({ data: {
         ...data, verificationCode, accessCode, password: PasswordHelper.encode(data.password)
     } });
-    await Prisma.settings.create({ data: { userId: createdUser.userId } });
+    const settings = await Prisma.settings.create({ data: { userId: createdUser.userId } });
 
     const profileImage = await Prisma.cloudFile.create({
         data: {
@@ -34,6 +35,9 @@ export async function SignupAction(data: SignupRequest): Promise<WikResponse<Aut
         where: { userId: createdUser.userId },
         data: { ...createdUser, profileImageId: profileImage.cloudFileId }
     });
+
+    const cookieStore = await cookies();
+    cookieStore.set('sessionId', `session:${user.userId}`, { httpOnly: true, secure: true, maxAge: 60 * 60 * 24 * 30, path: '/' });
 
     return WikResponse.Create({ data: WikMapper.map(user, AuthUserResponse, true), message: "User created successfully." });
 }

@@ -28,50 +28,50 @@ export default function NotificationsSettingsPage() {
                 <span className="text-base font-semibold text-night dark:text-gray-300">Letters to the mail</span>
 
                 <div className="flex flex-row justify-center items-center mt-6">
-                    <input type="checkbox" className="rounded text-celestial-blue bg-whitesmoke dark:bg-night w-5 h-5" checked={settingsData?.emailCommentReplies ?? false} onChange={(e) => setSettingsData({ ...settingsData, emailCommentReplies: e.target.checked })} />
+                    <input type="checkbox" className="rounded text-celestial-blue bg-whitesmoke dark:bg-night w-5 h-5 cursor-pointer" checked={settingsData?.emailCommentReplies ?? false} onChange={(e) => setSettingsData({ ...settingsData, emailCommentReplies: e.target.checked })} />
                     <span className="flex flex-1 text-base font-medium text-night dark:text-gray-300 ml-3">Replies to my comments</span>
                 </div>
                 <div className="flex flex-row justify-center items-center mt-4">
-                    <input type="checkbox" className="rounded text-celestial-blue bg-whitesmoke dark:bg-night w-5 h-5" checked={settingsData?.emailCommentMentions ?? false} onChange={(e) => setSettingsData({ ...settingsData, emailCommentMentions: e.target.checked })} />
+                    <input type="checkbox" className="rounded text-celestial-blue bg-whitesmoke dark:bg-night w-5 h-5 cursor-pointer" checked={settingsData?.emailCommentMentions ?? false} onChange={(e) => setSettingsData({ ...settingsData, emailCommentMentions: e.target.checked })} />
                     <span className="flex flex-1 text-base font-medium text-night dark:text-gray-300 ml-3">Mentions in comments</span>
                 </div>
                 <div className="flex flex-row justify-center items-center mt-4">
-                    <input type="checkbox" className="rounded text-celestial-blue bg-whitesmoke dark:bg-night w-5 h-5" checked={settingsData?.emailNewPostComment ?? false} onChange={(e) => setSettingsData({ ...settingsData, emailNewPostComment: e.target.checked })} />
+                    <input type="checkbox" className="rounded text-celestial-blue bg-whitesmoke dark:bg-night w-5 h-5 cursor-pointer" checked={settingsData?.emailNewPostComment ?? false} onChange={(e) => setSettingsData({ ...settingsData, emailNewPostComment: e.target.checked })} />
                     <span className="flex flex-1 text-base font-medium text-night dark:text-gray-300 ml-3">New comments on posts</span>
                 </div>
                 <div className="flex flex-row justify-center items-center mt-4">
-                    <input type="checkbox" className="rounded text-celestial-blue bg-whitesmoke dark:bg-night w-5 h-5" checked={settingsData?.emailNewPosts ?? false} onChange={(e) => setSettingsData({ ...settingsData, emailNewPosts: e.target.checked })} />
+                    <input type="checkbox" className="rounded text-celestial-blue bg-whitesmoke dark:bg-night w-5 h-5 cursor-pointer" checked={settingsData?.emailNewPosts ?? false} onChange={(e) => setSettingsData({ ...settingsData, emailNewPosts: e.target.checked })} />
                     <span className="flex flex-1 text-base font-medium text-night dark:text-gray-300 ml-3">New Posts</span>
                 </div>
                 <div className="flex flex-row justify-center items-center mt-4">
-                    <input type="checkbox" className="rounded text-celestial-blue bg-whitesmoke dark:bg-night w-5 h-5" checked={settingsData?.emailBestOfTheWeek ?? false} onChange={(e) => setSettingsData({ ...settingsData, emailBestOfTheWeek: e.target.checked })} />
+                    <input type="checkbox" className="rounded text-celestial-blue bg-whitesmoke dark:bg-night w-5 h-5 cursor-pointer" checked={settingsData?.emailBestOfTheWeek ?? false} onChange={(e) => setSettingsData({ ...settingsData, emailBestOfTheWeek: e.target.checked })} />
                     <span className="flex flex-1 text-base font-medium text-night dark:text-gray-300 ml-3">Best of the Week</span>
                 </div>
                 <div className="flex flex-row justify-center items-center mt-4">
-                    <input type="checkbox" className="rounded text-celestial-blue bg-whitesmoke dark:bg-night w-5 h-5" checked={settingsData?.emailPostCommentRatings ?? false} onChange={(e) => setSettingsData({ ...settingsData, emailPostCommentRatings: e.target.checked })} />
+                    <input type="checkbox" className="rounded text-celestial-blue bg-whitesmoke dark:bg-night w-5 h-5 cursor-pointer" checked={settingsData?.emailPostCommentRatings ?? false} onChange={(e) => setSettingsData({ ...settingsData, emailPostCommentRatings: e.target.checked })} />
                     <span className="flex flex-1 text-base font-medium text-night dark:text-gray-300 ml-3">Post and Comment ratings</span>
                 </div>
                 
                 <span className="text-base font-semibold text-night dark:text-gray-300 mt-7">Website notifications</span>
                 
                 <div className="flex flex-row justify-center items-center mt-6">
-                    <input type="checkbox" className="rounded text-celestial-blue bg-whitesmoke dark:bg-night w-5 h-5" checked={settingsData?.commentReplies ?? false} onChange={(e) => setSettingsData({ ...settingsData, commentReplies: e.target.checked })} />
+                    <input type="checkbox" className="rounded text-celestial-blue bg-whitesmoke dark:bg-night w-5 h-5 cursor-pointer" checked={settingsData?.commentReplies ?? false} onChange={(e) => setSettingsData({ ...settingsData, commentReplies: e.target.checked })} />
                     <span className="flex flex-1 text-base font-medium text-night dark:text-gray-300 ml-3">Replies to my comments</span>
                 </div>
                 <div className="flex flex-row justify-center items-center mt-4">
-                    <input type="checkbox" className="rounded text-celestial-blue bg-whitesmoke dark:bg-night w-5 h-5" checked={settingsData?.commentMentions ?? false} onChange={(e) => setSettingsData({ ...settingsData, commentMentions: e.target.checked })} />
+                    <input type="checkbox" className="rounded text-celestial-blue bg-whitesmoke dark:bg-night w-5 h-5 cursor-pointer" checked={settingsData?.commentMentions ?? false} onChange={(e) => setSettingsData({ ...settingsData, commentMentions: e.target.checked })} />
                     <span className="flex flex-1 text-base font-medium text-night dark:text-gray-300 ml-3">Mentions in comments</span>
                 </div>
                 <div className="flex flex-row justify-center items-center mt-4">
-                    <input type="checkbox" className="rounded text-celestial-blue bg-whitesmoke dark:bg-night w-5 h-5" checked={settingsData?.newPostComment ?? false} onChange={(e) => setSettingsData({ ...settingsData, newPostComment: e.target.checked })} />
+                    <input type="checkbox" className="rounded text-celestial-blue bg-whitesmoke dark:bg-night w-5 h-5 cursor-pointer" checked={settingsData?.newPostComment ?? false} onChange={(e) => setSettingsData({ ...settingsData, newPostComment: e.target.checked })} />
                     <span className="flex flex-1 text-base font-medium text-night dark:text-gray-300 ml-3">New comments on posts</span>
                 </div>
                 <div className="flex flex-row justify-center items-center mt-4">
-                    <input type="checkbox" className="rounded text-celestial-blue bg-whitesmoke dark:bg-night w-5 h-5" checked={settingsData?.newFollowers ?? false} onChange={(e) => setSettingsData({ ...settingsData, newFollowers: e.target.checked })} />
+                    <input type="checkbox" className="rounded text-celestial-blue bg-whitesmoke dark:bg-night w-5 h-5 cursor-pointer" checked={settingsData?.newFollowers ?? false} onChange={(e) => setSettingsData({ ...settingsData, newFollowers: e.target.checked })} />
                     <span className="flex flex-1 text-base font-medium text-night dark:text-gray-300 ml-3">New Followers</span>
                 </div>
                 <div className="flex flex-row justify-center items-center mt-4">
-                    <input type="checkbox" className="rounded text-celestial-blue bg-whitesmoke dark:bg-night w-5 h-5" checked={settingsData?.postCommentRatings ?? false} onChange={(e) => setSettingsData({ ...settingsData, postCommentRatings: e.target.checked })} />
+                    <input type="checkbox" className="rounded text-celestial-blue bg-whitesmoke dark:bg-night w-5 h-5 cursor-pointer" checked={settingsData?.postCommentRatings ?? false} onChange={(e) => setSettingsData({ ...settingsData, postCommentRatings: e.target.checked })} />
                     <span className="flex flex-1 text-base font-medium text-night dark:text-gray-300 ml-3">Post and Comment ratings</span>
                 </div>
             </div>

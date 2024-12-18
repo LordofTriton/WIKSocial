@@ -3,7 +3,6 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { User } from '../constants/entities/user.entity';
 import DatetimeHelper from '../helpers/datetime.helper';
-import { STORE_KEYS } from '../config/store.config';
 import Cache from '../util/cache.util';
 import { Settings } from '../constants/entities/settings.entity';
 import { NextRouter } from 'next/router';
@@ -17,6 +16,8 @@ import { WikMapper } from '../util/mapper.util';
 import { UpdateSettingsRequest } from '../constants/requests/settings.requests';
 import { Action } from '../actions/action';
 import { protectedRoutes } from '../config/routes.config';
+import { CACHE_KEYS } from '../config/cache.config';
+import { SetRedis } from '../util/redis.util';
 
 interface IAppContext {
   activeUser: Partial<User> | null;
@@ -26,7 +27,7 @@ interface IAppContext {
   updateActiveSettings: (data: Partial<Settings>, updateDb?: boolean) => void;
 
   accessCode: string;
-  updateAccessCode: (code: string) => void;
+  updateAccessCode: (userId: number, code: string) => void;
 
   darkMode: boolean;
   toggleDarkMode: () => void;
@@ -53,7 +54,7 @@ export const useApp = () => {
   return context;
 };
 
-export const AppProvider = ({ children }: { children: ReactNode }) => {
+export const AppProvider = ({ children, cachedData }: { children: ReactNode, cachedData: any }) => {
   const router = useRouter();
   const pathname = usePathname();
   const params = useParams();
@@ -70,30 +71,26 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [isFetchingData, setIsFetchingData] = useState(true);
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      const activeUserData = await Cache.getData(STORE_KEYS.ACTIVE_USER);
-      const activeSettingsData = await Cache.getData(STORE_KEYS.ACTIVE_SETTINGS);
-      const accessCodeData = await Cache.getData(STORE_KEYS.ACCESS_CODE);
-      
-      const parsedUser: Partial<User> = JSON.parse(activeUserData);
-      const parsedSettings: Partial<Settings> = JSON.parse(activeSettingsData);
+    const fetchUserData = async () => {      
+      const parsedUser: Partial<User> = JSON.parse(cachedData.activeUserData);
+      const parsedSettings: Partial<Settings> = JSON.parse(cachedData.activeSettingsData);
 
-      if (activeUserData) setActiveUser(parsedUser);
+      if (cachedData.activeUserData) setActiveUser(parsedUser);
       
-      if (activeSettingsData && parsedSettings) {
+      if (cachedData.activeSettingsData && parsedSettings) {
         setActiveSettings(parsedSettings);
         setDarkMode(parsedSettings.darkMode ?? false);
       }
   
-      if (accessCodeData && activeUserData) {
-        setAccessCode(accessCodeData);
-        setIsAuthenticated(accessCodeData.length > 0 && DatetimeHelper.hoursBetween(parsedUser.lastLogin ?? 0, Date.now()) < 24);
+      if (cachedData.accessCodeData && cachedData.activeUserData) {
+        setAccessCode(cachedData.accessCodeData);
+        setIsAuthenticated(cachedData.accessCodeData.length > 0 && DatetimeHelper.hoursBetween(parsedUser.lastLogin ?? 0, Date.now()) < 24);
       }
       else setIsAuthenticated(false);
     };
 
     fetchUserData();
-  }, []);
+  }, [cachedData]);
 
   useEffect(() => {
     if (isAuthenticated === null) return;
@@ -102,24 +99,29 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   }, [router, isAuthenticated, pathname]);
 
   const updateActiveUser = async (data: Partial<User>, updateDb: boolean = true) => {
-    await Cache.saveData(STORE_KEYS.ACTIVE_USER, JSON.stringify(data));
+    if (!data || !data.userId) return;
+    
     setActiveUser(data);
-
-    if (updateDb) await Action.UpdateUser({ userId: activeUser.userId, ...WikMapper.map(data, UpdateUserRequest) });
+    
+    await SetRedis(`session:${data.userId}`, CACHE_KEYS.REDIS_USER, JSON.stringify(data));
+    if (updateDb) await Action.UpdateUser({ userId: data.userId, ...WikMapper.map(data, UpdateUserRequest) });
   };
 
   const updateActiveSettings = async (data: Partial<Settings>, updateDb: boolean = true) => {
-    await Cache.saveData(STORE_KEYS.ACTIVE_SETTINGS, JSON.stringify(data));
+    if (!data || !data.userId) return;
+
     setActiveSettings(data);
     setDarkMode(data.darkMode);
 
+    await SetRedis(`session:${data.userId}`, CACHE_KEYS.REDIS_SETTINGS, JSON.stringify(data));
     if (updateDb) await Action.UpdateSettings({ userId: activeUser.userId, ...WikMapper.map(data, UpdateSettingsRequest) });
   };
 
-  const updateAccessCode = async (token: string) => {
-    await Cache.saveData(STORE_KEYS.ACCESS_CODE, token);
+  const updateAccessCode = async (userId: number, token: string) => {
     setAccessCode(token);
     setIsAuthenticated(token.length > 0);
+    
+    await SetRedis(`session:${userId}`, CACHE_KEYS.REDIS_ACCESS_CODE, token);
   };
 
   const toggleDarkMode = async () => {
@@ -141,7 +143,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const deleteUser = async (callback?: () => void) => {
     if (!activeUser || !activeUser.userId) return;
 
-    await Action.DeleteUser(activeUser?.userId);
+    await Action.DropUser(activeUser?.userId);
     await logOutUser(callback);
   };
 
