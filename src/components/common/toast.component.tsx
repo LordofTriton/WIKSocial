@@ -18,7 +18,7 @@ export const ToastMessage: React.FC<IProps> = ({
 }) => {
 
     return (
-        <div className="w-80 flex flex-row bg-white dark:bg-eerie-black rounded-xl px-3 mt-2 justify-center items-center pointer-events-auto">
+        <div className="w-80 flex flex-row bg-white dark:bg-eerie-black rounded-xl px-3 mt-2 justify-center items-center pointer-events-auto fade-in-out-right">
             {
                 data.type === ToastTypeEnum.SUCCESS ? <CheckCircleIcon className="w-8 h-8 text-green-400" /> :
                 data.type === ToastTypeEnum.ERROR ? <XCircleIcon className="w-8 h-8 text-red-500" /> :

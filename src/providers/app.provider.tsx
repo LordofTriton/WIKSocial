@@ -3,9 +3,7 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { User } from '../constants/entities/user.entity';
 import DatetimeHelper from '../helpers/datetime.helper';
-import Cache from '../util/cache.util';
 import { Settings } from '../constants/entities/settings.entity';
-import { NextRouter } from 'next/router';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { useRouter, usePathname, useParams, useSearchParams, ReadonlyURLSearchParams } from 'next/navigation';
 import { Params } from 'next/dist/server/request/params';
@@ -17,23 +15,23 @@ import { UpdateSettingsRequest } from '../constants/requests/settings.requests';
 import { Action } from '../actions/action';
 import { protectedRoutes } from '../config/routes.config';
 import { CACHE_KEYS } from '../config/cache.config';
-import { SetRedis } from '../util/redis.util';
+import { GetRedis, SetRedis } from '../util/redis.util';
+import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 
 interface IAppContext {
   activeUser: Partial<User> | null;
-  updateActiveUser: (data: Partial<User>, updateDb?: boolean) => void;
+  updateActiveUser: (data: Partial<User>, updateDb?: boolean) => Promise<void>;
   
   activeSettings: Partial<Settings> | null;
-  updateActiveSettings: (data: Partial<Settings>, updateDb?: boolean) => void;
+  updateActiveSettings: (data: Partial<Settings>, updateDb?: boolean) => Promise<void>;
 
   accessCode: string;
-  updateAccessCode: (userId: number, code: string) => void;
+  updateAccessCode: (userId: number, code: string) => Promise<void>;
 
   darkMode: boolean;
   toggleDarkMode: () => void;
 
   isAuthenticated: boolean;
-  isFetchingData: boolean;
 
   logOutUser: (callback?: () => void) => void;
   deleteUser: (callback?: () => void) => void;
@@ -54,48 +52,53 @@ export const useApp = () => {
   return context;
 };
 
-export const AppProvider = ({ children, cachedData }: { children: ReactNode, cachedData: any }) => {
+export const AppProvider = ({ children, getCookie, deleteCookie }: { children: ReactNode, getCookie: (key: string) => Promise<RequestCookie>, deleteCookie: (key: string) => Promise<void> }) => {
   const router = useRouter();
   const pathname = usePathname();
   const params = useParams();
   const searchParams = useSearchParams();
 
-  const [activeUser, setActiveUser] = useState<Partial<User> | null>({} as User);
-  const [activeSettings, setActiveSettings] = useState<Partial<Settings> | null>({} as Settings);
+  const [activeUser, setActiveUser] = useState<Partial<User> | null>(null);
+  const [activeSettings, setActiveSettings] = useState<Partial<Settings> | null>(null);
   
   const [darkMode, setDarkMode] = useState<boolean>(false);
 
   const [accessCode, setAccessCode] = useState<string>("");
   const [isAuthenticated, setIsAuthenticated] = useState(null);
 
-  const [isFetchingData, setIsFetchingData] = useState(true);
-
   useEffect(() => {
-    const fetchUserData = async () => {      
-      const parsedUser: Partial<User> = JSON.parse(cachedData.activeUserData);
-      const parsedSettings: Partial<Settings> = JSON.parse(cachedData.activeSettingsData);
+    const fetchUserData = async () => {    
+      const sessionId = await getCookie("sessionId");
+      if (!sessionId) return setIsAuthenticated(false);
 
-      if (cachedData.activeUserData) setActiveUser(parsedUser);
+      const accessCodeData = sessionId ? await GetRedis(sessionId.value, CACHE_KEYS.REDIS_ACCESS_CODE) : null;
+      const activeUserData = sessionId ? await GetRedis(sessionId.value, CACHE_KEYS.REDIS_USER) : null;
+      const activeSettingsData = sessionId ? await GetRedis(sessionId.value, CACHE_KEYS.REDIS_SETTINGS) : null;
+
+      const parsedUser: Partial<User> = JSON.parse(activeUserData);
+      const parsedSettings: Partial<Settings> = JSON.parse(activeSettingsData);
+
+      if (activeUserData) setActiveUser(parsedUser);
       
-      if (cachedData.activeSettingsData && parsedSettings) {
+      if (activeSettingsData && parsedSettings) {
         setActiveSettings(parsedSettings);
         setDarkMode(parsedSettings.darkMode ?? false);
       }
   
-      if (cachedData.accessCodeData && cachedData.activeUserData) {
-        setAccessCode(cachedData.accessCodeData);
-        setIsAuthenticated(cachedData.accessCodeData.length > 0 && DatetimeHelper.hoursBetween(parsedUser.lastLogin ?? 0, Date.now()) < 24);
+      if (accessCodeData && activeUserData) {
+        setAccessCode(accessCodeData);
+        setIsAuthenticated(accessCodeData.length > 0 && DatetimeHelper.hoursBetween(parsedUser.lastLogin ?? 0, Date.now()) < 24);
       }
       else setIsAuthenticated(false);
     };
 
     fetchUserData();
-  }, [cachedData]);
+  }, []);
 
   useEffect(() => {
     if (isAuthenticated === null) return;
 
-    if (!isFetchingData && !isAuthenticated && protectedRoutes.includes(pathname)) router.push("/");
+    if (!isAuthenticated && protectedRoutes.includes(pathname)) router.push("/");
   }, [router, isAuthenticated, pathname]);
 
   const updateActiveUser = async (data: Partial<User>, updateDb: boolean = true) => {
@@ -130,12 +133,12 @@ export const AppProvider = ({ children, cachedData }: { children: ReactNode, cac
   };
 
   const logOutUser = async (callback?: () => void) => {
-    await Cache.clearData();
+    await deleteCookie("sessionId");
+
     setActiveUser(null);
     setActiveSettings(null);
     setAccessCode("");
     setIsAuthenticated(false);
-    setIsFetchingData(true);
 
     if (callback) callback();
   };
@@ -157,7 +160,6 @@ export const AppProvider = ({ children, cachedData }: { children: ReactNode, cac
         updateActiveSettings,
 
         isAuthenticated,
-        isFetchingData,
 
         accessCode,
         updateAccessCode,
@@ -175,7 +177,7 @@ export const AppProvider = ({ children, cachedData }: { children: ReactNode, cac
       }}
     >
       <QueryClientProvider client={queryClient}>
-        {children}
+        { isAuthenticated !== null ? children : null }
       </QueryClientProvider>
     </AppContext.Provider>
   );

@@ -23,16 +23,16 @@ export const useMailSignupModal = () => {
     })
 
     const onSuccess = async (data: AuthUserResponse) => {
-        toast.success("Sign Up successful!");
-        await updateAccessCode(data.userId, data.accessCode);
+        closeModal();
+        toast.success("Welcome to WIK!");
 
         let user = await Action.FindUser({ userId: data.userId });
         if (user.data) await updateActiveUser(user.data, false);
+        
+        await updateAccessCode(data.userId, data.accessCode);
 
         let settings = await Action.FindSettings(data.userId);
         if (settings.data) await updateActiveSettings(settings.data, false);
-
-        closeModal();
     }
 
     const onFailure = async (response: WikResponse<any>) => {

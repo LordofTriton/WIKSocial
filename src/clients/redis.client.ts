@@ -1,9 +1,13 @@
-import redis from 'redis';
+const RedisClient = require("ioredis");
 
-const Redis = redis.createClient({
-    url: process.env.REDIS_URL // Replace with your Redis connection string
+const Redis = new RedisClient(process.env.REDIS_URL, { maxRetriesPerRequest: null });
+
+Redis.on("connect", () => {
+    console.log("Redis connection established!");
 });
-
-await Redis.connect();
+    
+Redis.on("error", (err) => {
+    console.log("Redis connection error", err);
+});
 
 export default Redis;

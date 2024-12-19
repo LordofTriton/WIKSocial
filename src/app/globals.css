@@ -19,3 +19,15 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.fade-in-out-right {
+  animation: fadeIn 5s linear;
+  transition: all;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateX(+100%); }
+  10% { opacity: 1; transform: translateX(0); }
+  90% { opacity: 1; transform: translateX(0); }
+  100% { opacity: 0; transform: translateX(+100%); }
+}

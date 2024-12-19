@@ -5,9 +5,7 @@ import { AppProvider } from "../providers/app.provider";
 import { ToastProvider } from "../providers/toast.provider";
 import { MainLayout } from "../components/layout/main.layout";
 import { ModalProvider } from "../providers/modal.provider";
-import { cookies } from 'next/headers';
-import { CACHE_KEYS } from "../config/cache.config";
-import { GetRedis } from "../util/redis.util";
+import { cookies } from "next/headers";
 
 const roboto = Roboto({
   weight: ["100", "300", "400", "500", "700", "900"],
@@ -31,20 +29,31 @@ export default async function RootLayout({
   children
 }: Readonly<{
   children: React.ReactNode;
-  cachedData: any
 }>) {
-  const cookieStore = await cookies();
 
-  const sessionId = cookieStore.get("sessionId");
+  const SetCookie = async (key: string, value: any) => {
+    'use server'
+    const cookieStore = await cookies();
+    cookieStore.set(key, value);
+  }
+    
+  const GetCookie = async (key: string) => {
+    'use server'
+    const cookieStore = await cookies();
+    const result = cookieStore.get(key);
+    return result ?? null;
+  }
 
-  const accessCodeData = sessionId ? await GetRedis(sessionId.value, CACHE_KEYS.REDIS_ACCESS_CODE) : null;
-  const activeUserData = sessionId ? await GetRedis(sessionId.value, CACHE_KEYS.REDIS_USER) : null;
-  const activeSettingsData = sessionId ? await GetRedis(sessionId.value, CACHE_KEYS.REDIS_SETTINGS) : null;
+  const DeleteCookie = async (key: string) => {
+    'use server'
+    const cookieStore = await cookies();
+    cookieStore.delete(key);
+  }
 
   return (
     <html lang="en">
       <body className={`${roboto.className} antialiased relative`}>
-        <AppProvider cachedData={{ activeUserData, activeSettingsData, accessCodeData }}>
+        <AppProvider getCookie={GetCookie} deleteCookie={DeleteCookie}>
             <ToastProvider>
               <ModalProvider>
                 <MainLayout>
