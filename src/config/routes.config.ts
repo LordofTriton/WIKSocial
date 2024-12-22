@@ -1,7 +1,7 @@
 export const protectedRoutes = [
-    "/settings",
-    "/settings/blog",
-    "/settings/feeds",
-    "/settings/general",
-    "/settings/notifications"
+    "/me/settings",
+    "/me/settings/blog",
+    "/me/settings/feeds",
+    "/me/settings/general",
+    "/me/settings/notifications"
 ]

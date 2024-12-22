@@ -5,6 +5,7 @@ export const Colors: Record<string, string> = {
   'tang-blue': '#0A5DD7',
   'alice-blue': '#D9F0FE',
   'anti-flash-white': '#F0F0F0',
+  'platinum': '#E5E5E5',
   'celestial-blue': '#1493E5',
   'night': '#161616',
   'raisin-black': '#27282C',

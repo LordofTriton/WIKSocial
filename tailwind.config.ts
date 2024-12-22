@@ -20,7 +20,29 @@ export default {
       },
       textColor: Colors,
       backgroundColor: Colors,
-      borderColor: Colors
+      borderColor: Colors,
+      spacing: {
+        '106': '41.1rem',
+        '116': '60rem',
+      },
+      maxWidth: {
+        '106': '41.1rem',
+        '116': '60rem',
+        'mobile-layout-content': '640px',
+        'lg-mobile-layout-content': '840px',
+        'tablet-layout-content': '884px',
+        'desktop-layout-content': '1280px',
+        'page-content': '640px',
+        'right-layout-content': '320px',
+        'left-layout-content': '220px'
+      }
+    },
+    screens: {
+      'sm-mobile': '440px',
+      'mobile': '640px',
+      'lg-mobile': '840px',
+      'tablet': '925px',
+      'desktop': '1280px'
     }
   },
   darkMode: 'class',

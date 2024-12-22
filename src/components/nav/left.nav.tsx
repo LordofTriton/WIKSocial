@@ -15,6 +15,7 @@ import { BsCompass, BsCompassFill } from "react-icons/bs";
 import { LuMonitorCheck } from "react-icons/lu";
 import { usePathname } from "next/navigation";
 import { PiCheckSquareOffset, PiCompass, PiCompassFill } from "react-icons/pi";
+import Link from "next/link";
 
 const menuButtons = [
     {
@@ -59,17 +60,19 @@ export const LeftNav = () => {
     const { toggleDarkMode } = useApp();
 
     return (
-        <div className="hidden md:block md:w-2/12 xl:w-2/12 sticky top-16 pt-5" style={{ height: "calc(100vh - 4rem)" }}>
+        <div className="hidden tablet:block tablet:w-80 max-w-left-layout-content sticky top-16 pt-5 pr-4 pl-2" style={{ height: "calc(100vh - 4rem)" }}>
             <div>
                 {
                     menuButtons.map((button, index) =>
-                        <div className={`flex flex-row ${pathname.includes(button.route) ? "bg-white" : "hover:bg-white"} rounded-xl justify-between items-center px-3 py-3 mb-1 cursor-pointer`} key={index}>
-                            { pathname.includes(button.route) ? button.activeIcon : button.icon }
+                        <Link href={button.route} key={index}>
+                            <div className={`flex flex-row ${pathname.includes(button.route) ? "bg-white dark:bg-ash" : "hover:bg-white dark:hover:bg-ash"} rounded-xl justify-between items-center px-3 py-3 mb-1 cursor-pointer text-night dark:text-gray-300`}>
+                                { pathname.includes(button.route) ? button.activeIcon : button.icon }
 
-                            <span className={`text-base text-night ${!pathname.includes(button.route) ? "dark:text-gray-300" : ""} flex-1 font-medium px-3 py-0`}>{button.label}</span>
+                                <span className={`text-base ${!pathname.includes(button.route) ? "text-night dark:text-gray-300" : ""} flex-1 font-medium px-3 py-0`}>{button.label}</span>
 
-                            {button.alert && ( <div className="w-2 h-2 rounded-full bg-celestial-blue"></div> )}
-                        </div>
+                                {button.alert && ( <div className="w-2 h-2 rounded-full bg-celestial-blue"></div> )}
+                            </div>
+                        </Link>
                     )
                 }
             </div>

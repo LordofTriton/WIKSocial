@@ -34,7 +34,7 @@ export async function LoginAction(data: LoginRequest): Promise<WikResponse<AuthU
   await Prisma.user.update({ where: { userId: user.userId }, data: user });
 
   const cookieStore = await cookies();
-  cookieStore.set('sessionId', `session:${user.userId}`, { httpOnly: true, secure: true, maxAge: 60 * 60 * 24 * 30, path: '/' });
+  cookieStore.set('sessionId', `session:${user.userId}:${user.accessCode}`, { httpOnly: true, secure: true, maxAge: 60 * 60 * 24 * 30, path: '/' });
 
   return WikResponse.Success({ data: WikMapper.map(user, AuthUserResponse, true), message: "Login successful." });
 }

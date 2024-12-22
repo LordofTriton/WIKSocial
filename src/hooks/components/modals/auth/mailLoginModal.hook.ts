@@ -28,7 +28,7 @@ export const useMailLoginModal = () => {
         let user = await Action.FindUser({ userId: data.userId });
         if (user.data) await updateActiveUser(user.data, false);
         
-        await updateAccessCode(data.userId, data.accessCode);
+        await updateAccessCode(data.accessCode);
 
         let settings = await Action.FindSettings(data.userId);
         if (settings.data) await updateActiveSettings(settings.data, false);

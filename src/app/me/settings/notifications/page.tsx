@@ -3,9 +3,9 @@
 import { UserIcon } from "@heroicons/react/24/outline";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import { useApp } from "../../../providers/app.provider";
+import { useApp } from "../../../../providers/app.provider";
 import { useEffect, useState } from "react";
-import { Settings } from "../../../constants/entities/settings.entity";
+import { Settings } from "../../../../constants/entities/settings.entity";
 
 export default function NotificationsSettingsPage() {
     const { activeSettings, updateActiveSettings } = useApp();
@@ -19,7 +19,7 @@ export default function NotificationsSettingsPage() {
     return (
         <div className="bg-white dark:bg-eerie-black rounded-xl">
             <div className="flex flex-row justify-center items-center px-5 py-3 border-b-2 border-whitesmoke dark:border-night">
-                <Link href="/settings"><ArrowLeftIcon className="w-8 h-8 text-night dark:text-gray-300 mr-3 cursor-pointer rounded-full hover:bg-whitesmoke p-1" /></Link>
+                <Link href="/me/settings"><ArrowLeftIcon className="w-8 h-8 text-night dark:text-gray-300 mr-3 cursor-pointer rounded-full hover:bg-whitesmoke p-1" /></Link>
                 <span className="flex flex-1 text-base font-semibold text-night dark:text-gray-300">Notifications</span>
                 { settingsData !== activeSettings && ( <span className="text-base font-semibold text-tang-blue dark:text-celestial-blue cursor-pointer" onClick={() => updateActiveSettings(settingsData)}>Save</span> )}
             </div>

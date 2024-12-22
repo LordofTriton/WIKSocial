@@ -1,10 +1,9 @@
 "use client"
 
-import { UserIcon } from "@heroicons/react/24/outline";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { useApp } from "../../../providers/app.provider";
+import { useApp } from "../../../../providers/app.provider";
 import { FcGoogle } from "react-icons/fc";
 import { FaVk, FaYandexInternational } from "react-icons/fa";
 
@@ -23,7 +22,7 @@ export default function MainSettingsPage() {
     return (
         <div className="bg-white dark:bg-eerie-black rounded-xl">
             <div className="flex flex-row justify-center items-center px-5 py-3 border-b-2 border-whitesmoke dark:border-night">
-                <Link href="/settings"><ArrowLeftIcon className="w-8 h-8 text-night dark:text-gray-300 mr-3 cursor-pointer rounded-full hover:bg-whitesmoke p-1" /></Link>
+                <Link href="/me/settings"><ArrowLeftIcon className="w-8 h-8 text-night dark:text-gray-300 mr-3 cursor-pointer rounded-full hover:bg-whitesmoke p-1" /></Link>
                 <span className="flex flex-1 text-base font-semibold text-night dark:text-gray-300">Main</span>
                 { userData.email !== activeUser?.email && ( <span className="text-base font-semibold text-tang-blue dark:text-celestial-blue cursor-pointer" onClick={() => { updateActiveUser({ ...activeUser, ...userData }); setEditMail(false); }}>Save</span> )}
             </div>

@@ -15,7 +15,7 @@ import { UpdateSettingsRequest } from '../constants/requests/settings.requests';
 import { Action } from '../actions/action';
 import { protectedRoutes } from '../config/routes.config';
 import { CACHE_KEYS } from '../config/cache.config';
-import { GetRedis, SetRedis } from '../util/redis.util';
+import { ClearRedis, GetRedis, SetRedis } from '../util/redis.util';
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 
 interface IAppContext {
@@ -26,7 +26,7 @@ interface IAppContext {
   updateActiveSettings: (data: Partial<Settings>, updateDb?: boolean) => Promise<void>;
 
   accessCode: string;
-  updateAccessCode: (userId: number, code: string) => Promise<void>;
+  updateAccessCode: (code: string) => Promise<void>;
 
   darkMode: boolean;
   toggleDarkMode: () => void;
@@ -86,8 +86,17 @@ export const AppProvider = ({ children, getCookie, deleteCookie }: { children: R
       }
   
       if (accessCodeData && activeUserData) {
-        setAccessCode(accessCodeData);
-        setIsAuthenticated(accessCodeData.length > 0 && DatetimeHelper.hoursBetween(parsedUser.lastLogin ?? 0, Date.now()) < 24);
+        const loginTimedOut = DatetimeHelper.hoursBetween(parsedUser.lastLogin ?? 0, Date.now()) > 24;
+
+        if (loginTimedOut) {
+          await ClearRedis(activeUserData.userId);
+          await deleteCookie("sessionId");
+          setIsAuthenticated(false);
+        }
+        else {
+          setAccessCode(accessCodeData);
+          setIsAuthenticated(accessCodeData.length > 0);
+        }
       }
       else setIsAuthenticated(false);
     };
@@ -98,33 +107,40 @@ export const AppProvider = ({ children, getCookie, deleteCookie }: { children: R
   useEffect(() => {
     if (isAuthenticated === null) return;
 
-    if (!isAuthenticated && protectedRoutes.includes(pathname)) router.push("/");
+    if (!isAuthenticated && protectedRoutes.includes(pathname)) logOutUser(() => router.push("/"));
   }, [router, isAuthenticated, pathname]);
 
   const updateActiveUser = async (data: Partial<User>, updateDb: boolean = true) => {
     if (!data || !data.userId) return;
+    const sessionId = await getCookie("sessionId");
+    if (!sessionId) return;
     
     setActiveUser(data);
     
-    await SetRedis(`session:${data.userId}`, CACHE_KEYS.REDIS_USER, JSON.stringify(data));
+    await SetRedis(sessionId.value, CACHE_KEYS.REDIS_USER, JSON.stringify(data));
     if (updateDb) await Action.UpdateUser({ userId: data.userId, ...WikMapper.map(data, UpdateUserRequest) });
   };
 
   const updateActiveSettings = async (data: Partial<Settings>, updateDb: boolean = true) => {
     if (!data || !data.userId) return;
+    const sessionId = await getCookie("sessionId");
+    if (!sessionId) return;
 
     setActiveSettings(data);
     setDarkMode(data.darkMode);
 
-    await SetRedis(`session:${data.userId}`, CACHE_KEYS.REDIS_SETTINGS, JSON.stringify(data));
+    await SetRedis(sessionId.value, CACHE_KEYS.REDIS_SETTINGS, JSON.stringify(data));
     if (updateDb) await Action.UpdateSettings({ userId: activeUser.userId, ...WikMapper.map(data, UpdateSettingsRequest) });
   };
 
-  const updateAccessCode = async (userId: number, token: string) => {
-    setAccessCode(token);
-    setIsAuthenticated(token.length > 0);
+  const updateAccessCode = async (code: string) => {
+    const sessionId = await getCookie("sessionId");
+    if (!sessionId) return;
+
+    setAccessCode(code);
+    setIsAuthenticated(code.length > 0);
     
-    await SetRedis(`session:${userId}`, CACHE_KEYS.REDIS_ACCESS_CODE, token);
+    await SetRedis(sessionId.value, CACHE_KEYS.REDIS_ACCESS_CODE, code);
   };
 
   const toggleDarkMode = async () => {
@@ -134,6 +150,7 @@ export const AppProvider = ({ children, getCookie, deleteCookie }: { children: R
 
   const logOutUser = async (callback?: () => void) => {
     await deleteCookie("sessionId");
+    await ClearRedis(activeUser.userId);
 
     setActiveUser(null);
     setActiveSettings(null);

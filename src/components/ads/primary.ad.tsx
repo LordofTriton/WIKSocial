@@ -1,6 +1,6 @@
 "use client"
 
-export const OverSection = () => {
+export const PrimaryAd = () => {
 
     return (
         <div className="h-64 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url(/assets/images/overAd.jpg)" }}>

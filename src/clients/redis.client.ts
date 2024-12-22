@@ -1,13 +1,17 @@
 const RedisClient = require("ioredis");
 
-const Redis = new RedisClient(process.env.REDIS_URL, { maxRetriesPerRequest: null });
-
-Redis.on("connect", () => {
-    console.log("Redis connection established!");
-});
+export default function getRedisClient() {
+    let Redis;
     
-Redis.on("error", (err) => {
-    console.log("Redis connection error", err);
-});
+    if (!global.Redis) {
+        console.log("Redis connection established!");
 
-export default Redis;
+        Redis = new RedisClient(process.env.REDIS_URL, { maxRetriesPerRequest: 1 });
+
+        global.Redis = Redis;
+    }
+
+    Redis = global.Redis;
+
+    return Redis;
+}
