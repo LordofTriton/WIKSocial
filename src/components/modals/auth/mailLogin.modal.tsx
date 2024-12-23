@@ -30,8 +30,8 @@ export const MailLoginModal = () => {
                 <span className="text-2xl text-black dark:text-gray-300 font-semibold mt-5">Sign in to your account</span>
 
                 <div className="w-3/4 mt-10">
-                    <input type="email" className="form-input rounded-xl w-full bg-whitesmoke focus:bg-white border-0 text-night text-md border focus:border-red-300 py-3 px-5 mb-4" placeholder="Mail" value={loginData.email} onChange={(e) => setLoginData({ ...loginData, email: e.target.value })} />
-                    <input type="password" className="form-input rounded-xl w-full bg-whitesmoke focus:bg-white border-0 text-night text-md border focus:border-red-300 py-3 px-5" placeholder="Password" value={loginData.password} onChange={(e) => setLoginData({ ...loginData, password: e.target.value })} />
+                    <input type="email" className="form-input rounded-xl w-full bg-whitesmoke dark:bg-ash focus:bg-white border-0 text-night dark:text-gray-300 text-md border focus:border-red-300 py-3 px-5 mb-4" placeholder="Mail" value={loginData.email} onChange={(e) => setLoginData({ ...loginData, email: e.target.value })} />
+                    <input type="password" className="form-input rounded-xl w-full bg-whitesmoke dark:bg-ash focus:bg-white border-0 text-night dark:text-gray-300 text-md border focus:border-red-300 py-3 px-5" placeholder="Password" value={loginData.password} onChange={(e) => setLoginData({ ...loginData, password: e.target.value })} />
 
                     <button className={`form-button w-full rounded-xl bg-tang-blue text-white py-2.5 mt-4 ${loading ? "opacity-50 cursor-not-allowed pointer-events-none" : ""}`} onClick={() => onSubmit()} disabled={loading}>Log In</button>
                 </div>

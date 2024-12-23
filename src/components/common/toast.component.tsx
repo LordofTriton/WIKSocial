@@ -26,11 +26,11 @@ export const ToastMessage: React.FC<IProps> = ({
             }
 
             <div className="flex flex-1 flex-row justify-start items-center mx-3 my-5">
-                <span className="flex flex-1 text-sm text-black font-medium">{data.message}</span>
+                <span className="flex flex-1 text-sm text-black dark:text-gray-300 font-medium">{data.message}</span>
             </div>
 
             <div className="flex w-8 h-8 justify-center items-center cursor-pointer" onClick={() => onRemove()}>
-                <XMarkIcon className="w-6 h-6 text-black" />
+                <XMarkIcon className="w-6 h-6 text-black dark:text-gray-300" />
             </div>
         </div>
     );

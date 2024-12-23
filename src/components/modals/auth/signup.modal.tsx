@@ -18,38 +18,38 @@ export const SignupModal = () => {
             onGoBack={() => toggleModal("login")}
         >
             <div className="flex flex-col flex-1 justify-center items-center">
-                <div className="bg-alice-blue rounded-xl mt-3 px-2 py-3 border border-gray-300 border-solid">
+                <div className="bg-alice-blue dark:bg-raisin-black rounded-xl mt-3 px-2 py-3 border border-gray-300 dark:border-gray-600 border-solid">
                     <h4 className="font-russoOne text-black dark:text-white text-xl">WIK</h4>
                 </div>
 
                 <span className="text-2xl text-black dark:text-gray-300 font-semibold mt-5">Sign Up</span>
 
                 <div className="w-3/4 mt-6">
-                    <div className="bg-whitesmoke flex flex-row justify-center items-center rounded-xl px-5 py-3 mb-3 cursor-pointer hover:bg-gray-200">
+                    <div className="bg-whitesmoke dark:bg-ash flex flex-row justify-center items-center rounded-xl px-5 py-3 mb-3 cursor-pointer hover:bg-gray-200 dark:hover:bg-night">
                         <FcGoogle className="w-6 h-6" />
                         <div className="flex flex-1 flex-row justify-center items-center">
                             <span className="text-md text-black dark:text-gray-300 font-semibold">Continue with Google</span>
                         </div>
                         <div className="w-6 h-6"></div>
                     </div>
-                    <div className="bg-whitesmoke flex flex-row justify-center items-center rounded-xl px-5 py-3 mb-3 cursor-pointer hover:bg-gray-200">
-                        <FaYandexInternational className="w-6 h-6 text-black" />
+                    <div className="bg-whitesmoke dark:bg-ash text-black dark:text-gray-300 flex flex-row justify-center items-center rounded-xl px-5 py-3 mb-3 cursor-pointer hover:bg-gray-200 dark:hover:bg-night">
+                        <FaYandexInternational className="w-6 h-6" />
                         <div className="flex flex-1 flex-row justify-center items-center">
-                            <span className="text-md text-black dark:text-gray-300 font-semibold">Continue with Yandex</span>
+                            <span className="text-md font-semibold">Continue with Yandex</span>
                         </div>
                         <div className="w-6 h-6"></div>
                     </div>
-                    <div className="bg-whitesmoke flex flex-row justify-center items-center rounded-xl px-5 py-3 mb-3 cursor-pointer hover:bg-gray-200">
-                        <FaVk className="w-6 h-6 text-black" />
+                    <div className="bg-whitesmoke dark:bg-ash text-black dark:text-gray-300 flex flex-row justify-center items-center rounded-xl px-5 py-3 mb-3 cursor-pointer hover:bg-gray-200 dark:hover:bg-night">
+                        <FaVk className="w-6 h-6" />
                         <div className="flex flex-1 flex-row justify-center items-center">
-                            <span className="text-md text-black dark:text-gray-300 font-semibold">Continue with Vkontakte</span>
+                            <span className="text-md font-semibold">Continue with Vkontakte</span>
                         </div>
                         <div className="w-6 h-6"></div>
                     </div>
-                    <div className="bg-whitesmoke flex flex-row justify-center items-center rounded-xl px-5 py-3 mb-3 cursor-pointer hover:bg-gray-200" onClick={() => toggleModal("signup.mail")}>
-                        <GoMail className="w-6 h-6 text-black" />
+                    <div className="bg-whitesmoke dark:bg-ash text-black dark:text-gray-300 flex flex-row justify-center items-center rounded-xl px-5 py-3 mb-3 cursor-pointer hover:bg-gray-200 dark:hover:bg-night" onClick={() => toggleModal("signup.mail")}>
+                        <GoMail className="w-6 h-6" />
                         <div className="flex flex-1 flex-row justify-center items-center">
-                            <span className="text-md text-black dark:text-gray-300 font-semibold">Mail</span>
+                            <span className="text-md font-semibold">Mail</span>
                         </div>
                         <div className="w-6 h-6"></div>
                     </div>

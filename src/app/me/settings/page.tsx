@@ -6,7 +6,7 @@ import { PiCheckSquareOffset } from "react-icons/pi";
 
 export default function MeSettingsPage() {
     return (
-        <div className="bg-white dark:bg-eerie-black rounded-xl">
+        <div className="bg-white dark:bg-eerie-black rounded-xl mt-5">
             <div className="px-6 py-4 border-b-2 border-whitesmoke dark:border-night">
                 <span className="text-base font-semibold text-night dark:text-gray-300">Settings</span>
             </div>

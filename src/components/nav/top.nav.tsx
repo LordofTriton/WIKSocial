@@ -36,7 +36,7 @@ export const TopNav = () => {
                             <BellIcon className="w-6 h-6 text-black dark:text-white" />
                         </div>
 
-                        <div className="flex flex-row justify-between items-center cursor-pointer bg-white dark:bg-jet-black rounded-full px-5 py-2 mr-4 shadow-md" onClick={() => toggleModal("create.post")}>
+                        <div className="flex flex-row justify-between items-center cursor-pointer bg-white dark:bg-jet-black rounded-full px-5 py-2 mr-4 shadow-md" onClick={() => { isAuthenticated ? toggleModal("create.post") : toggleModal("login") }}>
                             <PencilIcon className="w-5 h-5 text-black dark:text-gray-300 mr-2" />
                             <span className="text-base text-black dark:text-gray-300 font-medium">To write</span>
                         </div>
