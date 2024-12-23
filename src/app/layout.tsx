@@ -6,6 +6,7 @@ import { ToastProvider } from "../providers/toast.provider";
 import { MainLayout } from "../components/layout/main.layout";
 import { ModalProvider } from "../providers/modal.provider";
 import { cookies } from "next/headers";
+import { ThemeProvider } from "../providers/theme.provider";
 
 const roboto = Roboto({
   weight: ["100", "300", "400", "500", "700", "900"],
@@ -54,13 +55,15 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${roboto.className} antialiased relative`}>
         <AppProvider getCookie={GetCookie} deleteCookie={DeleteCookie}>
-          <ModalProvider>
+          <ThemeProvider>
             <ToastProvider>
-              <MainLayout>
-                {children}
-              </MainLayout>
+              <ModalProvider>
+                  <MainLayout>
+                    {children}
+                  </MainLayout>
+              </ModalProvider>
             </ToastProvider>
-          </ModalProvider>
+          </ThemeProvider>
         </AppProvider>
       </body>
     </html>

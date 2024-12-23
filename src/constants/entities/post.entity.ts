@@ -13,17 +13,15 @@ export class Post {
     communityId: number;
 
     @Expose()
-    textContent: string;
+    sharedPostId: number;
 
     @Expose()
-    linkContent: string;
-
-    @Expose()
-    mediaContentIds: string | string[];
+    content: string;
 
     @Expose()
     dateCreated: string;
        
     user?: User;
     community?: Community;
+    sharedPost?: Post;
 }

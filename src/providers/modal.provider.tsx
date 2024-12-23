@@ -54,17 +54,15 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
         <ModalContext.Provider
             value={{ currentModal, setCurrentModal, toggleModal, closeModal }}
         >
-            <div className={`${darkMode ? "dark" : ""}`}>
-                {children}
+            {children}
 
-                <LoginModal />
-                <SignupModal />
+            <LoginModal />
+            <SignupModal />
 
-                <MailLoginModal />
-                <MailSignupModal />
+            <MailLoginModal />
+            <MailSignupModal />
 
-                <CreatePostModal />
-            </div>
+            <CreatePostModal />
             
         </ModalContext.Provider>
     );

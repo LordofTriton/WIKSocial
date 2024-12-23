@@ -23,7 +23,7 @@ export const TopNav = () => {
         <>
             <div className="hidden lg-mobile:block"><PrimaryAd /></div>
 
-            <div className="flex h-16 sticky top-0 z-10 bg-alice-blue dark:bg-raisin-black justify-center items-center">
+            <div className="flex h-16 sticky top-0 z-10 bg-alice-blue dark:bg-raisin-black justify-center items-center px-5">
                 <div className="w-full flex flex-row justify-between items-center mobile:max-w-mobile-layout-content lg-mobile:max-w-lg-mobile-layout-content tablet:max-w-tablet-layout-content desktop:max-w-desktop-layout-content">
                     <Link href="/"><h4 className="font-russoOne text-black dark:text-white text-4xl">WIK</h4></Link>
 

@@ -3,10 +3,10 @@
 import { BellIcon, Cog6ToothIcon, PhotoIcon, UserIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { PiCheckSquareOffset } from "react-icons/pi";
-import { useMePage } from "../../hooks/pages/me/mePage.hook";
-import useDrop from "../../hooks/misc/useDrop";
+import { useMePage } from "../../../hooks/pages/me/mePage.hook";
+import useDrop from "../../../hooks/misc/useDrop";
 
-export default function MePage() {
+export default function MeCommentsPage() {
     const { state: showProfileDrop, setState: setShowProfileDrop, ref: profileDropRef } = useDrop();
 
     const {
@@ -61,8 +61,8 @@ export default function MePage() {
                 </div>
 
                 <div className="w-full mt-4 flex flex-row justify-start items-center">
-                    <p className={`text-base font-normal text-night dark:text-gray-400 mr-3 py-4 border-b-4 border-celestial-blue cursor-pointer mr-2`}>Posts</p>
-                    <p className={`text-base font-normal text-night dark:text-gray-400 mr-3 py-4 border-b-4 border-transparent cursor-pointer`} onClick={() => router.push("/me/comments", { scroll: false })}>Comments</p>
+                    <p className={`text-base font-normal text-night dark:text-gray-400 mr-3 py-4 border-b-4 border-transparent cursor-pointer mr-2`} onClick={() => router.push("/me", { scroll: false })}>Posts</p>
+                    <p className={`text-base font-normal text-night dark:text-gray-400 mr-3 py-4 border-b-4 border-celestial-blue cursor-pointer`}>Comments</p>
                 </div>
             </div>
         </div>

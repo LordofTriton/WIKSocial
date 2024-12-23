@@ -45,7 +45,7 @@ export const CreatePostModal = () => {
         >
             <div className="w-full bg-white dark:bg-eerie-black">
                 <div className="flex flex-row justify-between items-center px-4 pb-2 pl-8">
-                    <div className="w-12 h-12 bg-cover bg-center bg-no-repeat rounded-full cursor-pointer relative" style={{ backgroundImage: `url(https://leonardo.osnova.io/858cd137-caa3-5e4c-8e0b-a7cb52524b00/-/scale_crop/72x72/-/format/webp/)` }}>
+                    <div className="w-12 h-12 bg-cover bg-center bg-no-repeat rounded-full cursor-pointer relative" style={{ backgroundImage: `url(${activeUser?.profileImage?.uri ?? ""})` }}>
                         {
                             selectedCommunity && (
                                 <div className="w-6 h-6 bg-cover bg-center bg-no-repeat rounded-full cursor-pointer border border-white dark:border-eerie-black absolute right-0 bottom-0" style={{ backgroundImage: `url(https://leonardo.osnova.io/097c16c9-4459-5f8d-9da6-ce8e76831f3e/-/scale_crop/72x72/-/format/webp/` }}>
@@ -54,7 +54,7 @@ export const CreatePostModal = () => {
                         }
                     </div>
                     <div className="flex flex-1 flex-col justify-center items-start pl-3">
-                        <span className="text-base font-medium text-night dark:text-gray-400">Dmitriy</span>
+                        <span className="text-base font-medium text-night dark:text-gray-400">{activeUser?.username ?? ""}</span>
                         <div className="relative">
                             <span className="inline-flex items-center text-sm font-normal text-night dark:text-gray-400 cursor-pointer" onClick={() => setShowCommunitiesDrop(true)}>
                                 {selectedCommunity?.name ?? "Public"}

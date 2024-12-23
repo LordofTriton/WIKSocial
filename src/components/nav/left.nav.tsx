@@ -22,7 +22,7 @@ const menuButtons = [
         label: "Popular",
         icon: <OutlineFireIcon className="w-6 h-6 text-night dark:text-gray-300" />,
         activeIcon: <SolidFireIcon className="w-6 h-6 text-celestial-blue" />,
-        route: "/",
+        route: "/popular",
         alert: true
     },
     {
