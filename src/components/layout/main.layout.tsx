@@ -12,25 +12,20 @@ interface IProps {
 }
 
 export const MainLayout: React.FC<IProps> = ({ children }) => {
-    const { darkMode } = useApp();
 
     return (
-        <div className={`${darkMode ? "dark" : ""}`}>
-            <div className="relative bg-whitesmoke dark:bg-night">
-                <TopNav />
+        <div className="min-h-screen relative bg-whitesmoke dark:bg-night">
+            <TopNav />
 
-                <div className="w-full flex flex-col justify-center items-center">
+            <div className="w-full flex flex-col justify-center items-center">
                 <div className="w-full flex flex-row justify-center tablet:justify-between relative mobile:max-w-mobile-layout-content lg-mobile:max-w-lg-mobile-layout-content tablet:max-w-tablet-layout-content desktop:max-w-desktop-layout-content">
                     <LeftNav />
 
                     <div className="w-full max-w-page-content sticky top-0">
-                        <HeadNav />
-
                         { children }
                     </div>
 
                     <SecondaryAd />
-                </div>
                 </div>
             </div>
         </div>

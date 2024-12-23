@@ -1,9 +1,11 @@
 import { Post } from "../components/common/post.component";
 import { News } from "../components/misc/news.component";
+import { HeadNav } from "../components/nav/head.nav";
 
 export default function HomePage() {
   return (
     <div className="">
+      <HeadNav />
       <News />
       
       {

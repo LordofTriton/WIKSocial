@@ -36,7 +36,7 @@ export default async function RootLayout({
     const cookieStore = await cookies();
     cookieStore.set(key, value);
   }
-    
+
   const GetCookie = async (key: string) => {
     'use server'
     const cookieStore = await cookies();
@@ -54,13 +54,13 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${roboto.className} antialiased relative`}>
         <AppProvider getCookie={GetCookie} deleteCookie={DeleteCookie}>
+          <ModalProvider>
             <ToastProvider>
-              <ModalProvider>
-                <MainLayout>
-                  {children}
-                </MainLayout>
-              </ModalProvider>
+              <MainLayout>
+                {children}
+              </MainLayout>
             </ToastProvider>
+          </ModalProvider>
         </AppProvider>
       </body>
     </html>

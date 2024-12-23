@@ -18,7 +18,7 @@ export default function MePage() {
     } = useMePage();
 
     return (
-        <div className="bg-white dark:bg-eerie-black rounded-xl overflow-hidden">
+        <div className="bg-white dark:bg-eerie-black rounded-xl overflow-hidden mt-4">
             <div className="w-full h-52 bg-platinum dark:bg-ash relative flex justify-center items-center">
                 <div className="flex flex-row justify-center items-center bg-whitesmoke dark:bg-eerie-black px-2 py-1 rounded-md cursor-pointer">
                     <PhotoIcon className="w-4 h-4 text-night dark:text-white mr-2" />

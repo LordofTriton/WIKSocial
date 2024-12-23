@@ -2,10 +2,15 @@
 
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { useApp } from './app.provider';
+
+// Auth
 import { LoginModal } from '../components/modals/auth/login.modal';
 import { SignupModal } from '../components/modals/auth/signup.modal';
 import { MailLoginModal } from '../components/modals/auth/mailLogin.modal';
 import { MailSignupModal } from '../components/modals/auth/mailSignup.modal';
+
+// Post
+import { CreatePostModal } from '../components/modals/post/createPost.modal';
 
 interface IModalContext {
     currentModal: string;
@@ -26,7 +31,7 @@ export const useModal = () => {
 };
 
 export const ModalProvider = ({ children }: { children: ReactNode }) => {
-    const { pathname, searchParams } = useApp();
+    const { pathname, searchParams, darkMode } = useApp();
     const [currentModal, setCurrentModal] = useState<string | null>(null);
 
     useEffect(() => {
@@ -49,13 +54,17 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
         <ModalContext.Provider
             value={{ currentModal, setCurrentModal, toggleModal, closeModal }}
         >
-            {children}
+            <div className={`${darkMode ? "dark" : ""}`}>
+                {children}
 
-            <LoginModal />
-            <SignupModal />
+                <LoginModal />
+                <SignupModal />
 
-            <MailLoginModal />
-            <MailSignupModal />
+                <MailLoginModal />
+                <MailSignupModal />
+
+                <CreatePostModal />
+            </div>
             
         </ModalContext.Provider>
     );

@@ -60,7 +60,7 @@ export const LeftNav = () => {
     const { toggleDarkMode } = useApp();
 
     return (
-        <div className="hidden tablet:block tablet:w-80 max-w-left-layout-content sticky top-16 pt-5 pr-4 pl-2" style={{ height: "calc(100vh - 4rem)" }}>
+        <div className="hidden tablet:block tablet:w-80 max-w-left-layout-content sticky top-16 pt-5 pr-4" style={{ height: "calc(100vh - 4rem)" }}>
             <div>
                 {
                     menuButtons.map((button, index) =>
