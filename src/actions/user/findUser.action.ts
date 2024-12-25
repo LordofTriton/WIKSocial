@@ -1,20 +1,24 @@
 "use server";
 
-import Prisma from "../../clients/prisma.client";
+import Database from "../../orm/database";
 import { User } from "../../constants/entities/user.entity";
 import { FindUserRequest } from "../../constants/requests/user.requests";
 import { WikResponse } from "../../constants/responses/response";
 import { WikMapper } from "../../util/mapper.util";
+import { FindOptionsRelations } from "typeorm";
+import { WikServerAction } from "../server.action";
 
-export async function FindUserAction(data: FindUserRequest): Promise<WikResponse<User>> {
-    const user =  await Prisma.user.findFirst({
+export const FindUserAction = async (data: FindUserRequest, relations?: FindOptionsRelations<User>): Promise<WikResponse<User>> => WikServerAction(async () => {
+    const user =  await Database.User.findOne({
         where: data,
-        include: {
+        relations: {
             profileImage: true,
-            coverImage: true
+            coverImage: true,
+
+            ...relations
         }
     });
 
     const userData = WikMapper.map(user, User, true);
     return WikResponse.Success({ data: userData, message: "User fetched successfully." });
-}
+});

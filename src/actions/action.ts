@@ -1,5 +1,8 @@
-import { WikServerAction } from "./base.action";
+import { WikServerAction } from "./server.action";
 import { WikResponse } from "../constants/responses/response";
+
+import glob from 'glob';
+
 
 // Auth
 import { LoginAction } from "./auth/login.action";
@@ -17,25 +20,14 @@ import { DropUserAction } from "./user/dropUser.action";
 
 
 export class Action {
-    static Login = this.useAction(LoginAction);
-    static Signup = this.useAction(SignupAction);
+    static Login = LoginAction;
+    static Signup = SignupAction;
 
-    static FindSettings = this.useAction(FindSettingsAction);
-    static UpdateSettings = this.useAction(UpdateSettingsAction);
+    static FindSettings = FindSettingsAction;
+    static UpdateSettings = UpdateSettingsAction;
 
-    static FindUser = this.useAction(FindUserAction);
-    static UpdateUser = this.useAction(UpdateUserAction);
-    static DeleteUser = this.useAction(DeleteUserAction);
-    static DropUser = this.useAction(DropUserAction);
-
-    static useAction<K, T>(action: (params: K) => Promise<WikResponse<T>>) {
-        return async (params: K) => {
-            try {
-                return await action(params);
-            } catch (error) {
-                console.error('Error in server action:', error);
-                throw new Error('An unexpected error occurred. Please try again.');
-            }
-        };
-    }
+    static FindUser = FindUserAction;
+    static UpdateUser = UpdateUserAction;
+    static DeleteUser = DeleteUserAction;
+    static DropUser = DropUserAction;
 }

@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 import type { Metadata } from "next";
 import { Roboto, Russo_One } from "next/font/google";
 import "./globals.css";
@@ -7,6 +9,8 @@ import { MainLayout } from "../components/layout/main.layout";
 import { ModalProvider } from "../providers/modal.provider";
 import { cookies } from "next/headers";
 import { ThemeProvider } from "../providers/theme.provider";
+
+import Database from "../orm/database";
 
 const roboto = Roboto({
   weight: ["100", "300", "400", "500", "700", "900"],
@@ -31,6 +35,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  await Database.initialize();
 
   const SetCookie = async (key: string, value: any) => {
     'use server'
@@ -58,9 +63,9 @@ export default async function RootLayout({
           <ThemeProvider>
             <ToastProvider>
               <ModalProvider>
-                  <MainLayout>
-                    {children}
-                  </MainLayout>
+                <MainLayout>
+                  {children}
+                </MainLayout>
               </ModalProvider>
             </ToastProvider>
           </ThemeProvider>

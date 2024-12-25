@@ -25,13 +25,12 @@ export const useMailLoginModal = () => {
         closeModal();
         toast.success("Login successful!");
 
-        let user = await Action.FindUser({ userId: data.userId });
+        let user = await Action.FindUser({ userId: data.userId }, { settings: true });
+        
         if (user.data) await updateActiveUser(user.data, false);
+        if (user.data.settings) await updateActiveSettings(user.data.settings, false);
         
         await updateAccessCode(data.accessCode);
-
-        let settings = await Action.FindSettings(data.userId);
-        if (settings.data) await updateActiveSettings(settings.data, false);
     }
 
     const onFailure = async (response: WikResponse<any>) => {
@@ -42,7 +41,6 @@ export const useMailLoginModal = () => {
         mutationFn: async () => await Action.Login(loginData),
         onSuccess: (response: WikResponse<AuthUserResponse> | null) => {
             if (!response) return;
-            console.log(response)
 
             if (response.success && response.data) onSuccess(response.data);
             else onFailure(response);

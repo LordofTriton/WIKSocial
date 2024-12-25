@@ -1,9 +1,9 @@
 import { Expose } from 'class-transformer';
 import { PaginatedRequest } from '../models/pagination.models';
 
-export class CreateUserRequest {
+export class CreatePostRequest {
     @Expose()
-    username: string;
+    postname: string;
 
     @Expose()
     email: string;
@@ -12,21 +12,21 @@ export class CreateUserRequest {
     password: string;
 
     @Expose()
-    userType: string;
+    postType: string;
 }
 
-export class FindUserRequest {
+export class FindPostRequest {
     @Expose()
-    userId?: number;
+    postId?: number;
 
     @Expose()
-    username?: string;
+    postname?: string;
 
     @Expose()
     email?: string;
 }
 
-export class GetUsersRequest extends FindUserRequest {
+export class GetPostsRequest extends FindPostRequest {
     @Expose()
     page: number;
 
@@ -34,22 +34,22 @@ export class GetUsersRequest extends FindUserRequest {
     pageSize: number;
 
     @Expose()
-    userType: string;
+    postType: string;
 
     @Expose()
-    userStatus?: string;
+    postStatus?: string;
 }
 
-export class SearchUsersRequest extends PaginatedRequest {
+export class SearchPostsRequest extends PaginatedRequest {
     @Expose()
     query: string;
 }
 
-export class UpdateUserRequest {
-    userId: number;
+export class UpdatePostRequest {
+    postId: number;
 
     @Expose()
-    username: string;
+    postname: string;
 
     @Expose()
     profileImageId: number;

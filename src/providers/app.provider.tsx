@@ -111,6 +111,8 @@ export const AppProvider = ({ children, getCookie, deleteCookie }: { children: R
   }, [router, isAuthenticated, pathname]);
 
   const updateActiveUser = async (data: Partial<User>, updateDb: boolean = true) => {
+    data = WikMapper.map(data, User);
+
     if (!data || !data.userId) return;
     const sessionId = await getCookie("sessionId");
     if (!sessionId) return;
@@ -122,6 +124,8 @@ export const AppProvider = ({ children, getCookie, deleteCookie }: { children: R
   };
 
   const updateActiveSettings = async (data: Partial<Settings>, updateDb: boolean = true) => {
+    data = WikMapper.map(data, Settings);
+
     if (!data || !data.userId) return;
     const sessionId = await getCookie("sessionId");
     if (!sessionId) return;

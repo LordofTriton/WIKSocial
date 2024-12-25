@@ -2,26 +2,22 @@ import { Expose } from "class-transformer";
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 @Entity()
-export class Exception {
+export class CloudFile {
     @Expose()
     @PrimaryGeneratedColumn()
-    exceptionId: number;
+    cloudFileId: number;
 
     @Expose()
     @Column()
-    code: number;
+    userId: number;
 
     @Expose()
     @Column()
-    action: string;
+    uri: string;
 
     @Expose()
-    @Column({ length: 256 })
-    message: string;
-
-    @Expose()
-    @Column({ length: 256 })
-    metadata: string;
+    @Column()
+    fileType: string;
 
     @Expose()
     @Column({ default: () => "CURRENT_TIMESTAMP" })

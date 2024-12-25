@@ -1,0 +1,7 @@
+export enum CommunityStatusEnum {
+    ACTIVE = 'ACTIVE',
+    INACTIVE = 'INACTIVE',
+    DEACTIVATED = 'DEACTIVATED',
+    RESTRICTED = 'RESTRICTED',
+    DELETED = 'DELETED'
+}
