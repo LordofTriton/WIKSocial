@@ -18,6 +18,9 @@ export class CreateUserRequest {
 export class FindUserRequest {
     @Expose()
     userId?: number;
+    
+    @Expose()
+    uid?: string;
 
     @Expose()
     username?: string;
@@ -26,13 +29,7 @@ export class FindUserRequest {
     email?: string;
 }
 
-export class GetUsersRequest extends FindUserRequest {
-    @Expose()
-    page: number;
-
-    @Expose()
-    pageSize: number;
-
+export class GetUsersRequest extends PaginatedRequest {
     @Expose()
     userType: string;
 
@@ -49,31 +46,28 @@ export class UpdateUserRequest {
     userId: number;
 
     @Expose()
-    username: string;
+    username?: string;
 
     @Expose()
-    profileImageId: number;
+    profileImageId?: number;
   
     @Expose()
-    coverImageId: number;
+    coverImageId?: number;
 
     @Expose()
-    email: string;
+    email?: string;
 
     @Expose()
-    bio: string;
-
-    @Expose()
-    password: string;
+    bio?: string;
   
     @Expose()
-    googleId: string;
+    googleId?: string;
     
     @Expose()
-    yandexId: string;
+    yandexId?: string;
     
     @Expose()
-    vkontakteId: string;
+    vkontakteId?: string;
 
     @Expose()
     firebaseToken?: string;

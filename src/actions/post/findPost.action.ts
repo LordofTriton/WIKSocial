@@ -6,7 +6,7 @@ import { WikResponse } from "../../constants/responses/response";
 import { WikMapper } from "../../util/mapper.util";
 import { WikServerAction } from "../server.action";
 
-export const FindPostAction = async (postId: number): Promise<WikResponse<Post>> => WikServerAction(async () => {
+export const FindPostAction = async (id: number): Promise<WikResponse<Post>> => WikServerAction(async () => {
     const post = await Database.Post
         .createQueryBuilder("post")
         .leftJoinAndSelect("post.reactions", "reaction")
@@ -19,7 +19,10 @@ export const FindPostAction = async (postId: number): Promise<WikResponse<Post>>
             `COUNT(CASE WHEN reaction.reactionType = 'like' THEN 1 ELSE NULL END) AS likeReactions`,
             `COUNT(CASE WHEN reaction.reactionType = 'haha' THEN 1 ELSE NULL END) AS hahaReactions`,
         ])
-        .where({ postId })
+        .where([
+            { postId: id },
+            { pid: id }
+        ])
         .groupBy("post.id")
         .getRawOne();
 

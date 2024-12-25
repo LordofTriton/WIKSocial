@@ -1,5 +1,5 @@
 import { Expose } from "class-transformer";
-import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne, OneToMany, type Relation } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne, OneToMany, type Relation, BeforeInsert, BeforeUpdate } from "typeorm";
 import { User } from "./user.entity";
 import { Community } from "./community.entity";
 import { Comment } from "./comment.entity";
@@ -16,16 +16,24 @@ export class Post {
     userId: number;
 
     @Expose()
-    @Column()
+    @Column({ nullable: true })
     communityId: number;
 
     @Expose()
-    @Column()
+    @Column({ nullable: true })
     sharedPostId: number;
+
+    @Expose()
+    @Column({ unique: true, length: 256 })
+    pid: string;
 
     @Expose()
     @Column()
     content: string;
+
+    @Expose()
+    @Column({ default: false })
+    sensitiveContent: boolean;
 
     @Expose()
     @Column({ default: () => "CURRENT_TIMESTAMP" })
@@ -42,14 +50,20 @@ export class Post {
     reactions: Relation<Reaction>[];
        
     @OneToOne(() => Post, { nullable: true })
-    @JoinColumn({ name: "referenceId", referencedColumnName: "postId", foreignKeyConstraintName: "Post.SharedPost" })
+    @JoinColumn({ name: "sharedPostId", referencedColumnName: "postId", foreignKeyConstraintName: "Post.SharedPost" })
     sharedPost: Relation<Post>;
 
     @OneToOne(() => User, { nullable: true })
-    @JoinColumn({ name: "referenceId", referencedColumnName: "userId", foreignKeyConstraintName: "Post.Author" })
+    @JoinColumn({ name: "userId", referencedColumnName: "userId", foreignKeyConstraintName: "Post.Author" })
     author: Relation<User>;
 
     @OneToOne(() => Community, { nullable: true })
-    @JoinColumn({ name: "referenceId", referencedColumnName: "communityId", foreignKeyConstraintName: "Post.Community" })
+    @JoinColumn({ name: "communityId", referencedColumnName: "communityId", foreignKeyConstraintName: "Post.Community" })
     community: Relation<Community>;
+
+    // Hooks
+  
+    @BeforeInsert()
+    @BeforeUpdate()
+    updatePID() { this.pid = `p.${this.postId}`; }
 }

@@ -2,20 +2,20 @@
 
 import Database from "../../orm/database";
 import { Post } from "../../constants/entities/post.entity";
-import { GetPostsRequest } from "../../constants/requests/post.requests";
 import { WikResponse } from "../../constants/responses/response";
 import { WikServerAction } from "../server.action";
+import { GetHomeFeedRequest } from "../../constants/requests/feed.requests";
+import { WikMapper } from "../../util/mapper.util";
 
-export const GetPostsAction = async (data: GetPostsRequest): Promise<WikResponse<Post[]>> => WikServerAction(async () => {
+export const GetHomeFeedAction = async (data: GetHomeFeedRequest): Promise<WikResponse<Post[]>> => WikServerAction(async () => {
     const { page, pageSize, ...params } = data;
 
     const communities =  await Database.Post.find({
-        where: params,
         relations: {
             author: true,
             community: true
         }
     });
 
-    return WikResponse.Success({ data: communities, message: "Posts fetched successfully." });
+    return WikResponse.Success({ data: WikMapper.toObject(communities), message: "Home Feed fetched successfully." });
 });

@@ -17,8 +17,10 @@ export async function SignupAction(data: SignupRequest): Promise<WikResponse<Aut
     const verificationCode = Generator.GenerateDigits(5).toString();
     const accessCode = Generator.GenerateToken(32);
 
-    const createdUser = await Database.User.save({ ...data, verificationCode, accessCode, password: PasswordHelper.encode(data.password) });
-    await Database.Settings.save({ userId: createdUser.userId });
+    const createdUser = Database.User.create({ ...data, verificationCode, accessCode, password: PasswordHelper.encode(data.password) });
+    const savedUser = await Database.User.save(createdUser);
+
+    await Database.Settings.save({ userId: savedUser.userId });
 
     const profileImage = await Database.CloudFile.save({
         userId: createdUser.userId,

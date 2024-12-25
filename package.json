@@ -21,6 +21,7 @@
     "class-transformer": "^0.5.1",
     "cloudinary": "^2.5.1",
     "crypto": "^1.0.1",
+    "editorjs-html": "^3.4.3",
     "html-to-text": "^9.0.5",
     "ioredis": "^5.4.1",
     "lodash.debounce": "^4.0.8",

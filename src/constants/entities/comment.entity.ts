@@ -20,7 +20,7 @@ export class Comment {
     postId: number;
 
     @Expose()
-    @Column()
+    @Column({ nullable: true })
     communityId: number;
 
     @Expose()

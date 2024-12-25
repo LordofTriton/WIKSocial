@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToMany, OneToOne, type Relation } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToMany, OneToOne, type Relation, BeforeInsert, BeforeUpdate } from "typeorm";
 import { Expose } from 'class-transformer';
 import { CloudFile } from "../entities/cloudFile.entity";
 import { Notion } from "./notion.entity";
@@ -15,6 +15,10 @@ export class User {
   @Expose()
   @Column({ length: 256 })
   username: string;
+
+  @Expose()
+  @Column({ unique: true, length: 256 })
+  uid: string;
 
   @Expose()
   @Column({ nullable: true, unique: true })
@@ -86,26 +90,38 @@ export class User {
 
   // Relations
 
+  @Expose()
   @OneToOne(() => Settings, (settings) => settings.user)
   settings: Relation<Settings>;
 
+  @Expose()
   @OneToMany(() => Notification, (notification) => notification.referenceUser)
   @JoinColumn({ name: "userId", referencedColumnName: "userId", foreignKeyConstraintName: "User.Notifications" })
   notifications: Relation<Notification>[];
 
+  @Expose()
   @OneToMany(() => Post, (post) => post.author)
   @JoinColumn({ name: "userId", referencedColumnName: "userId", foreignKeyConstraintName: "User.Posts" })
   posts: Relation<Post>[];
 
+  @Expose()
   @OneToMany(() => Notion, (notion) => notion.referenceUser)
   @JoinColumn({ name: "userId", referencedColumnName: "userId", foreignKeyConstraintName: "User.Notions" })
   notions: Relation<Notion>[];
 
+  @Expose()
   @OneToOne(() => CloudFile, { nullable: true })
   @JoinColumn({ name: "profileImageId", referencedColumnName: "cloudFileId", foreignKeyConstraintName: "User.ProfileImage" })
   profileImage?: Relation<CloudFile>;
 
+  @Expose()
   @OneToOne(() => CloudFile, { nullable: true })
   @JoinColumn({ name: "coverImageId", referencedColumnName: "cloudFileId", foreignKeyConstraintName: "User.CoverImage" })
   coverImage?: Relation<CloudFile>;
+
+  // Hooks
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  updateUID() { this.uid = `u.${this.userId}.${this.username.toLowerCase().replaceAll("", "-")}`; }
 }

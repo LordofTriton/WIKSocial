@@ -8,8 +8,10 @@ import { WikMapper } from "../../util/mapper.util";
 import { WikServerAction } from "../server.action";
 
 export const GetUsersAction = async (data: GetUsersRequest): Promise<WikResponse<User[]>> => WikServerAction(async () => {
+    const { page, pageSize, ...params } = data;
+
     const user =  await Database.User.find({
-        where: data,
+        where: params,
         relations: {
             profileImage: true,
             coverImage: true

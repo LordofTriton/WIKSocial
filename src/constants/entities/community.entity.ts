@@ -1,5 +1,5 @@
 import { Expose } from "class-transformer";
-import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne, OneToMany, type Relation } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne, OneToMany, type Relation, BeforeInsert, BeforeUpdate } from "typeorm";
 import { CloudFile } from "../entities/cloudFile.entity";
 import { Post } from "./post.entity";
 import { CommunityStatusEnum } from "../enums/community.enums";
@@ -16,8 +16,8 @@ export class Community {
     name: string;
 
     @Expose()
-    @Column({ length: 256 })
-    displayName: string;
+    @Column({ unique: true, length: 256 })
+    cid: string;
 
     @Expose()
     @Column()
@@ -56,4 +56,10 @@ export class Community {
     @OneToMany(() => Comment, (comment) => comment.community)
     @JoinColumn({ name: "communityId", referencedColumnName: "communityId", foreignKeyConstraintName: "Community.Comments" })
     comments: Relation<Comment>[];
+
+    // Hooks
+  
+    @BeforeInsert()
+    @BeforeUpdate()
+    updateCID() { this.cid = `c.${this.communityId}.${this.name.toLowerCase().replaceAll("", "-")}`; }
 }

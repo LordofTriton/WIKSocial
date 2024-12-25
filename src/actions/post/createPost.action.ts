@@ -1,19 +1,15 @@
-// "use server";
+"use server";
 
-// import DatabaseManager from "../../orm/database";
-// import { User } from "../../constants/entities/user.entity";
-// import { UpdateUserRequest } from "../../constants/requests/user.requests";
-// import { WikResponse } from "../../constants/responses/response";
-// import { UserHelper } from "../../helpers/user.helper";
-// import { WikMapper } from "../../util/mapper.util";
+import Database from "../../orm/database";
+import { WikResponse } from "../../constants/responses/response";
+import { CreatePostRequest } from "../../constants/requests/post.requests";
+import { Post } from "../../constants/entities/post.entity";
+import { WikServerAction } from "../server.action";
+import { WikMapper } from "../../util/mapper.util";
 
-// export async function CreatePostAction(data: UpdateUserRequest): Promise<WikResponse<User>> {
-//     const existingUser = await Prisma.user.findFirst({ where: { userId: data.userId } });
-//     if (!existingUser) return WikResponse.Failure({ error: "User not found." });
+export const CreatePostAction = async (data: CreatePostRequest): Promise<WikResponse<Post>> => WikServerAction(async () => {
+    const createdPost = Database.Post.create(data);
+    const newPost = await Database.Post.save(createdPost);
 
-//     let updates = WikMapper.map(data, UpdateUserRequest);
-
-//     const result = await Prisma.user.update({ where: { userId: data.userId }, data: updates as any });
-
-//     return WikResponse.Update({ data: WikMapper.map(result, User, true), message: "User updated successfully." });
-// }
+    return WikResponse.Update({ data: WikMapper.toObject(newPost), message: "Post created successfully." });
+});

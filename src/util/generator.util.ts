@@ -52,4 +52,8 @@ export default class Generator {
 
         return result;
     }
+
+    static generateID(entity: string, entityId: number, entityName: string): string {
+        return `${entity}.${entityId}-${entityName.toLowerCase().replaceAll(" ", ".")}`;
+    }
 }

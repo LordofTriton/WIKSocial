@@ -3,41 +3,33 @@ import { PaginatedRequest } from '../models/pagination.models';
 
 export class CreatePostRequest {
     @Expose()
-    postname: string;
+    userId: number;
 
     @Expose()
-    email: string;
+    communityId?: number;
 
     @Expose()
-    password: string;
+    sharedPostId?: number;
 
     @Expose()
-    postType: string;
+    content: string;
+
+    @Expose()
+    sensitiveContent: boolean;
 }
 
-export class FindPostRequest {
+export class GetPostsRequest extends PaginatedRequest {
     @Expose()
-    postId?: number;
+    userId?: number;
 
     @Expose()
-    postname?: string;
+    communityId?: number;
 
     @Expose()
-    email?: string;
-}
-
-export class GetPostsRequest extends FindPostRequest {
-    @Expose()
-    page: number;
+    sharedPostId?: number;
 
     @Expose()
-    pageSize: number;
-
-    @Expose()
-    postType: string;
-
-    @Expose()
-    postStatus?: string;
+    sensitiveContent?: boolean;
 }
 
 export class SearchPostsRequest extends PaginatedRequest {
@@ -49,32 +41,8 @@ export class UpdatePostRequest {
     postId: number;
 
     @Expose()
-    postname: string;
+    content?: string;
 
     @Expose()
-    profileImageId: number;
-  
-    @Expose()
-    coverImageId: number;
-
-    @Expose()
-    email: string;
-
-    @Expose()
-    bio: string;
-
-    @Expose()
-    password: string;
-  
-    @Expose()
-    googleId: string;
-    
-    @Expose()
-    yandexId: string;
-    
-    @Expose()
-    vkontakteId: string;
-
-    @Expose()
-    firebaseToken?: string;
+    sensitiveContent?: boolean;
 }
